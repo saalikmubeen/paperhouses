@@ -73,6 +73,7 @@ const logInViaGoogle = async (
 
     let viewer = updateRes.value;
 
+    // means user is logging in for the first time
     if (!viewer) {
         const insertResult = await db.users.insertOne({
             _id: userId,
@@ -90,7 +91,7 @@ const logInViaGoogle = async (
 
     res.cookie("viewer", userId, {
         ...cookieOptions,
-        maxAge: 365 * 24 * 60 * 60 * 1000,
+        maxAge: 365 * 24 * 60 * 60 * 1000, // one year
     });
 
     return viewer;
@@ -102,6 +103,7 @@ const logInViaCookie = async (
     req: Request,
     res: Response
 ): Promise<User | undefined> => {
+
     const updateRes = await db.users.findOneAndUpdate(
         { _id: req.signedCookies.viewer },
         { $set: { token } },
@@ -137,19 +139,19 @@ export const viewerResolvers: IResolvers = {
                 const code = input ? input.code : null;
                 const token = crypto.randomBytes(16).toString("hex");
 
-                const viewer: User | undefined = code
+                const user: User | undefined = code
                     ? await logInViaGoogle(code, token, db, res)
                     : await logInViaCookie(token, db, req, res);
 
-                if (!viewer) {
+                if (!user) {
                     return { didRequest: true };
                 }
 
                 return {
-                    _id: viewer._id,
-                    token: viewer.token,
-                    avatar: viewer.avatar,
-                    walletId: viewer.walletId,
+                    _id: user._id,
+                    token: user.token,
+                    avatar: user.avatar,
+                    walletId: user.walletId,
                     didRequest: true,
                 };
             } catch (error) {
