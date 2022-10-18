@@ -1,13 +1,36 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import {
+    ApolloClient,
+    ApolloProvider,
+    InMemoryCache,
+    createHttpLink,
+} from "@apollo/client";
+import { setContext } from "@apollo/client/link/context";
 import reportWebVitals from './reportWebVitals';
 import "./styles/index.css";
 import { App } from './App';
 
+const httpLink = createHttpLink({
+    uri: "/api",
+});
+
+const tokenLink = setContext((_, { headers }) => {
+    // get the X-CSRF-TOKEN token from session storage if it exists
+    const token = sessionStorage.getItem("token");
+    // return the headers to the context so httpLink can read them
+    return {
+        headers: {
+            ...headers,
+            "X-CSRF-TOKEN": token || "",
+        },
+    };
+});
+
 
 const client = new ApolloClient({
-    uri: "/api",
+    link: tokenLink.concat(httpLink),
+    credentials: 'include',
     cache: new InMemoryCache(),
 });
 
