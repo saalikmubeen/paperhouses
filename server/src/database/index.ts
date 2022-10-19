@@ -8,7 +8,7 @@ import { Booking, Database, Listing, User } from "../lib/types";
 const url = "mongodb://localhost/paper-houses";
 
 export const connectDatabase = async (): Promise<Database> => {
-  const client = await MongoClient.connect(url, { useNewUrlParser: true });
+  const client = await MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
   const db = client.db("main");
 
   return {

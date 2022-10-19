@@ -86,7 +86,7 @@ export const App = () => {
                         <Route path=":location" element={<Listings />} />
                     </Route>
 
-                    <Route path="/user/:id" element={<User />} />
+                    <Route path="/user/:id" element={<User viewer={ viewer }/>} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </Layout>

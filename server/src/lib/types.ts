@@ -74,7 +74,7 @@ export interface Listing {
     country: string;
     admin: string;
     city: string;
-    bookings: ObjectId[];
+    bookings: ObjectId[]; // bookings made for a certain listing from many different users
     bookingsIndex: BookingsIndex;
     price: number;
     numOfGuests: number;
@@ -90,6 +90,7 @@ export interface User {
     income: number;
     bookings: ObjectId[];  // refers to the document in the bookings collection
     listings: ObjectId[];  // refers to the document in the listings collection
+    authorized?: boolean;  // not a database field
 }
 
 export interface Database {
