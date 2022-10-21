@@ -7,6 +7,10 @@
 // START Enums and Input Objects
 //==============================================================
 
+export interface ConnectStripeInput {
+  code: string;
+}
+
 export interface LogInInput {
   code: string;
 }

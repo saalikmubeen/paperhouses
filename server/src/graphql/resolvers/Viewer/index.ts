@@ -3,7 +3,9 @@ import { Request, Response } from "express";
 import { IResolvers } from "apollo-server-express";
 import { Google } from "../../../lib/api";
 import { Viewer, Database, User } from "../../../lib/types";
-import { LogInArgs } from "./types";
+import { ConnectStripeArgs, LogInArgs } from "./types";
+import { authorize } from "../../../lib/utils";
+import { Stripe } from "../../../lib/api/Stripe";
 
 const cookieOptions = {
     httpOnly: true,
@@ -170,6 +172,84 @@ export const viewerResolvers: IResolvers = {
                 throw new Error(`Failed to log out: ${error}`);
             }
         },
+
+        connectStripe: async (
+            _root: undefined,
+            { input }: ConnectStripeArgs,
+            { db, req }: { db: Database; req: Request }
+        ): Promise<Viewer> => {
+            try {
+                const { code } = input;
+
+                let viewer = await authorize(db, req);
+                if (!viewer) {
+                    throw new Error("viewer cannot be found");
+                }
+
+                const wallet = await Stripe.connect(code);
+                if (!wallet) {
+                    throw new Error("stripe grant error");
+                }
+
+                const updateRes = await db.users.findOneAndUpdate(
+                    { _id: viewer._id },
+                    { $set: { walletId: wallet.stripe_user_id } },
+                    { returnOriginal: false }
+                );
+
+                if (!updateRes.value) {
+                    throw new Error("viewer could not be updated");
+                }
+
+                viewer = updateRes.value;
+
+                return {
+                    _id: viewer._id,
+                    token: viewer.token,
+                    avatar: viewer.avatar,
+                    walletId: viewer.walletId,
+                    didRequest: true,
+                };
+            } catch (error) {
+                throw new Error(`Failed to connect with Stripe: ${error}`);
+            }
+        },
+
+        disconnectStripe: async (
+            _root: undefined,
+            _args: {},
+            { db, req }: { db: Database; req: Request }
+        ): Promise<Viewer> => {
+            try {
+                let viewer = await authorize(db, req);
+                if (!viewer) {
+                    throw new Error("viewer cannot be found");
+                }
+
+                const updateRes = await db.users.findOneAndUpdate(
+                    { _id: viewer._id },
+                    { $set: { walletId: undefined } },
+                    { returnOriginal: false }
+                );
+
+                if (!updateRes.value) {
+                    throw new Error("viewer could not be updated");
+                }
+
+                viewer = updateRes.value;
+
+                return {
+                    _id: viewer._id,
+                    token: viewer.token,
+                    avatar: viewer.avatar,
+                    walletId: viewer.walletId,
+                    didRequest: true,
+                };
+            } catch (error) {
+                throw new Error(`Failed to disconnect with Stripe: ${error}`);
+            }
+        },
+
     },
     Viewer: {
         id: (viewer: Viewer): string | undefined => {

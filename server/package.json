@@ -3,6 +3,7 @@
     "version": "0.1.0",
     "dependencies": {
         "@types/cookie-parser": "^1.4.2",
+        "@types/stripe": "^7.13.9",
         "apollo-server-express": "^2.6.4",
         "body-parser": "^1.19.0",
         "cookie-parser": "^1.4.4",
@@ -10,7 +11,8 @@
         "googleapis": "^42.0.0",
         "graphql": "^14.3.1",
         "lodash.merge": "^4.6.2",
-        "mongodb": "^3.2.7"
+        "mongodb": "^3.2.7",
+        "stripe": "^7.13.1"
     },
     "devDependencies": {
         "@types/body-parser": "^1.17.0",

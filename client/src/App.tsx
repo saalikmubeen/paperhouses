@@ -16,6 +16,7 @@ import { LOG_IN } from "./lib/graphql/mutations";
 import { LogInVariables, LogIn as LogInData  } from "./lib/graphql/mutations/LogIn/__generated__/LogIn";
 import { AppHeaderSkeleton, ErrorBanner } from "./lib/components";
 import { AppHeader } from "./lib/components/AppHeader";
+import { Stripe } from "./sections/Stripe";
 
 const initialViewer: Viewer = {
     id: null,
@@ -77,6 +78,10 @@ export const App = () => {
                         path="/login"
                         element={<Login setViewer={setViewer} />}
                     />
+                    <Route
+                        path="/stripe"
+                        element={<Stripe viewer={viewer}  setViewer={setViewer} />}
+                    />
                     <Route path="/listing/:id" element={<Listing />} />
 
                     {/* <Route path="/listings/:location" element={<Listings />} />
@@ -86,7 +91,10 @@ export const App = () => {
                         <Route path=":location" element={<Listings />} />
                     </Route>
 
-                    <Route path="/user/:id" element={<User viewer={ viewer }/>} />
+                    <Route
+                        path="/user/:id"
+                        element={<User viewer={viewer} setViewer={setViewer} />}
+                    />
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </Layout>

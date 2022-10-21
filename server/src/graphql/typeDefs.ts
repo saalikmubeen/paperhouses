@@ -1,7 +1,6 @@
 import { gql } from "apollo-server-express";
 
 export const typeDefs = gql`
-
     type Booking {
         id: ID!
         listing: Listing!
@@ -36,7 +35,7 @@ export const typeDefs = gql`
     }
 
     type Listings {
-        total: Int!  # total number of objects that can be queried
+        total: Int! # total number of objects that can be queried
         result: [Listing!]!
     }
 
@@ -64,6 +63,10 @@ export const typeDefs = gql`
         code: String!
     }
 
+    input ConnectStripeInput {
+        code: String!
+    }
+
     type Query {
         authUrl: String!
         user(id: ID!): User!
@@ -72,5 +75,7 @@ export const typeDefs = gql`
     type Mutation {
         logIn(input: LogInInput): Viewer!
         logOut: Viewer!
+        connectStripe(input: ConnectStripeInput!): Viewer!
+        disconnectStripe: Viewer!
     }
 `;

@@ -1,0 +1,14 @@
+import stripe from "stripe";
+
+const client = new stripe(`${process.env.STRIPE_SECRET_KEY}`);
+
+export const Stripe = {
+    connect: async (code: string) => {
+        const response = await client.oauth.token({
+            grant_type: "authorization_code",
+            code,
+        });
+
+        return response; // response contains access_token, stripe_user_id and more
+    },
+};
