@@ -35,7 +35,8 @@ export const UserProfile = ({ user, viewerIsUser, viewer, setViewer, handleUserR
                   handleUserRefetch();
               }
           },
-          onError: () => {
+          onError: (err) => {
+            console.log(err);
               displayErrorMessage(
                   "Sorry! We weren't able to disconnect you from Stripe. Please try again later!"
               );

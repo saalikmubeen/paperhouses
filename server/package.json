@@ -1,6 +1,9 @@
 {
     "name": "paperhouses-server",
     "version": "0.1.0",
+    "engines": {
+        "node": "16.14.0"
+    },
     "dependencies": {
         "@types/cookie-parser": "^1.4.2",
         "@types/stripe": "^7.13.9",

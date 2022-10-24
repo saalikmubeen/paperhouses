@@ -11,4 +11,13 @@ export const Stripe = {
 
         return response; // response contains access_token, stripe_user_id and more
     },
+    disconnect: async (stripeUserId: string) => {
+        // @ts-ignore
+        const response = await client.oauth.deauthorize({
+            client_id: `${process.env.STRIPE_CLIENT_ID}`,
+            stripe_user_id: stripeUserId,
+        });
+
+        return response;
+    },
 };
