@@ -68,7 +68,7 @@ export interface Listing {
     title: string;
     description: string;
     image: string;
-    host: string;  // host user_id
+    host: string; // host user_id
     type: ListingType;
     address: string;
     country: string;
@@ -78,6 +78,7 @@ export interface Listing {
     bookingsIndex: BookingsIndex;
     price: number;
     numOfGuests: number;
+    authorized?: boolean;
 }
 
 export interface User {

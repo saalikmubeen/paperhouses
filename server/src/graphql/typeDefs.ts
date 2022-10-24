@@ -19,6 +19,11 @@ export const typeDefs = gql`
         HOUSE
     }
 
+    enum ListingsFilter {
+        PRICE_LOW_TO_HIGH
+        PRICE_HIGH_TO_LOW
+    }
+
     type Listing {
         id: ID!
         title: String!
@@ -35,6 +40,7 @@ export const typeDefs = gql`
     }
 
     type Listings {
+        region: String
         total: Int! # total number of objects that can be queried
         result: [Listing!]!
     }
@@ -63,6 +69,16 @@ export const typeDefs = gql`
         code: String!
     }
 
+    input HostListingInput {
+        title: String!
+        description: String!
+        image: String!
+        type: ListingType!
+        address: String!
+        price: Int!
+        numOfGuests: Int!
+    }
+
     input ConnectStripeInput {
         code: String!
     }
@@ -70,6 +86,13 @@ export const typeDefs = gql`
     type Query {
         authUrl: String!
         user(id: ID!): User!
+        listing(id: ID!): Listing!
+        listings(
+            location: String
+            filter: ListingsFilter!
+            limit: Int!
+            page: Int!
+        ): Listings!
     }
 
     type Mutation {
@@ -77,5 +100,6 @@ export const typeDefs = gql`
         logOut: Viewer!
         connectStripe(input: ConnectStripeInput!): Viewer!
         disconnectStripe: Viewer!
+        hostListing(input: HostListingInput!): Listing!
     }
 `;

@@ -5,7 +5,7 @@ import { Google } from "../../../lib/api";
 import { Viewer, Database, User } from "../../../lib/types";
 import { ConnectStripeArgs, LogInArgs } from "./types";
 import { authorize } from "../../../lib/utils";
-import { Stripe } from "../../../lib/api/Stripe";
+import { Stripe } from "../../../lib/api";
 
 const cookieOptions = {
     httpOnly: true,
