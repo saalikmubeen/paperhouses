@@ -82,7 +82,7 @@ export const App = () => {
                         path="/stripe"
                         element={<Stripe viewer={viewer}  setViewer={setViewer} />}
                     />
-                    <Route path="/listing/:id" element={<Listing />} />
+                    <Route path="/listing/:id" element={<Listing viewer={viewer} />} />
 
                     {/* <Route path="/listings/:location" element={<Listings />} />
                         <Route path="/listings" element={<Listings />} /> */}

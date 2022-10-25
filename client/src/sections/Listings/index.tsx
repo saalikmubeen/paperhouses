@@ -24,15 +24,18 @@ export const Listings = () => {
   const [filter, setFilter] = useState(ListingsFilter.PRICE_LOW_TO_HIGH);
   const [page, setPage] = useState(1);
 
-  const { loading, data, error } = useQuery<ListingsData, ListingsVariables>(LISTINGS, {
-    skip: locationRef.current !== location && page !== 1,
-    variables: {
-      location,
-      filter,
-      limit: PAGE_LIMIT,
-      page
-    }
-  });
+  const { loading, data, error } = useQuery<ListingsData, ListingsVariables>(
+      LISTINGS,
+      {
+          skip: locationRef.current !== location && page !== 1, // If true, the query is not executed
+          variables: {
+              location,
+              filter,
+              limit: PAGE_LIMIT,
+              page,
+          },
+      }
+  );
 
 
   useEffect(() => {
