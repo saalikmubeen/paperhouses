@@ -15,6 +15,8 @@ import {
     ListingsQuery,
     HostListingInput,
     HostListingArgs,
+    UpdateListingArgs,
+    UpdateListingInput
 } from "./types";
 
 const verifyHostListingInput = ({
@@ -22,7 +24,7 @@ const verifyHostListingInput = ({
     description,
     type,
     price,
-}: HostListingInput) => {
+}: Omit<HostListingInput, "address">) => {
     if (title.length > 100) {
         throw new Error("listing title must be under 100 characters");
     }
@@ -80,13 +82,8 @@ export const listingResolvers: IResolvers = {
                 if (location) {
                     const res = await GeoCoder.geocode(location);
 
-                    const {
-                        country,
-                        city,
-                        state,
-                        neighbourhood,
-                        zipcode,
-                    } = res[0] as any;
+                    const { country, city, state, neighbourhood, zipcode } =
+                        res[0] as any;
 
                     let admin: string | null = null;
 
@@ -142,13 +139,12 @@ export const listingResolvers: IResolvers = {
                 throw new Error("viewer cannot be found");
             }
 
-            const res = await GeoCoder.geocode(
-                input.address
-            );
+            const res = await GeoCoder.geocode(input.address);
 
-            console.log(res)
+            console.log(res);
 
-            const { country, city, neighbourhood, state, zipcode } = res[0] as any;
+            const { country, city, neighbourhood, state, zipcode } =
+                res[0] as any;
 
             if (!country || !state || !city) {
                 throw new Error("invalid address input");
@@ -178,6 +174,58 @@ export const listingResolvers: IResolvers = {
             );
 
             return insertedListing;
+        },
+
+        updateListing: async (
+            _root: undefined,
+            { input, id }: UpdateListingArgs,
+            { db, req }: { db: Database; req: Request }
+        ): Promise<{id: string}> => {
+            verifyHostListingInput({...input, image: ""});
+
+            let viewer = await authorize(db, req);
+            if (!viewer) {
+                throw new Error("viewer cannot be found");
+            }
+
+            const listing = await db.listings.findOne({
+                _id: new ObjectId(id),
+            });
+            if (!listing) {
+                throw new Error("listing can't be found");
+            }
+
+            // If currently logged in user is viewing their own listing
+            if (listing.host !== viewer._id) {
+                throw new Error("Unauthorized!");
+            } else {
+                listing.authorized = true;
+            }
+
+            let imageUrl: string | null = null;
+
+            if(input.image) {
+                imageUrl = await Cloudinary.upload(input.image);
+            }
+
+            const updates = {...input};
+
+            if(imageUrl) {
+                updates.image = imageUrl
+            }
+
+            await db.listings.updateOne(
+                {
+                    _id: new ObjectId(id),
+                },
+                {
+                    $set: updates,
+                }
+            );
+
+            return {
+                id: listing._id
+            };
         },
     },
     Listing: {

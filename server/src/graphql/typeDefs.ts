@@ -79,6 +79,20 @@ export const typeDefs = gql`
         numOfGuests: Int!
     }
 
+    input UpdateListingInput {
+        title: String!
+        description: String!
+        image: String
+        type: ListingType!
+        price: Int!
+        numOfGuests: Int!
+    }
+
+
+    type UpdateListingResult {
+        id: ID!
+    }
+
     input ConnectStripeInput {
         code: String!
     }
@@ -101,5 +115,6 @@ export const typeDefs = gql`
         connectStripe(input: ConnectStripeInput!): Viewer!
         disconnectStripe: Viewer!
         hostListing(input: HostListingInput!): Listing!
+        updateListing(id: ID!, input: UpdateListingInput!): UpdateListingResult!
     }
 `;

@@ -48,6 +48,21 @@ export interface HostListingInput {
     numOfGuests: number;
 }
 
+
+export interface UpdateListingInput {
+    title: string;
+    description: string;
+    image?: string;
+    type: ListingType;
+    price: number;
+    numOfGuests: number;
+}
+
 export interface HostListingArgs {
     input: HostListingInput;
+}
+
+export interface UpdateListingArgs {
+    id: string
+    input: UpdateListingInput;
 }
