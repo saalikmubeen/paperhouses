@@ -18,11 +18,12 @@ const httpLink = createHttpLink({
 const tokenLink = setContext((_, { headers }) => {
     // get the X-CSRF-TOKEN token from session storage if it exists
     const token = sessionStorage.getItem("token");
+    console.log(token)
     // return the headers to the context so httpLink can read them
     return {
         headers: {
             ...headers,
-            "X-CSRF-TOKEN": token || "",
+            "X-CSRF-TOKEN": sessionStorage.getItem("token") || "",
         },
     };
 });

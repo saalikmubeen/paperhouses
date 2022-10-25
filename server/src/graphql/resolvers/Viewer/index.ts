@@ -105,6 +105,7 @@ const logInViaCookie = async (
     req: Request,
     res: Response
 ): Promise<User | undefined> => {
+    console.log(token)
 
     const updateRes = await db.users.findOneAndUpdate(
         { _id: req.signedCookies.viewer },
@@ -113,6 +114,7 @@ const logInViaCookie = async (
     );
 
     let viewer = updateRes.value;
+    console.log(viewer)
 
     if (!viewer) {
         res.clearCookie("viewer", cookieOptions);

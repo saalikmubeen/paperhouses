@@ -4,7 +4,7 @@ import mbxGeocoding from "@mapbox/mapbox-sdk/services/geocoding";
 import "mapbox-gl/dist/mapbox-gl.css";
 import "./map.css";
 
-export const GenerateMap = ({ address }  : {address: string}) => {
+export const ShowLocation = ({ address }  : {address: string}) => {
     const map = useRef<Map | null>(null);
     const mapContainerRef = useRef<HTMLDivElement | null>(null);
     mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_API_KEY as string;

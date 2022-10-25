@@ -73,7 +73,7 @@ export const App = () => {
 
                 <Routes>
                     <Route path="/" element={<Home />} />
-                    <Route path="/host" element={<Host />} />
+                    <Route path="/host" element={<Host viewer={viewer}/>} />
                     <Route
                         path="/login"
                         element={<Login setViewer={setViewer} />}

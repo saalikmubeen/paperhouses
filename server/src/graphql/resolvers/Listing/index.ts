@@ -54,7 +54,7 @@ export const listingResolvers: IResolvers = {
 
                 const viewer = await authorize(db, req);
 
-                // IFf currently logged in user is viewing their own listing
+                // If currently logged in user is viewing their own listing
                 if (viewer && viewer._id === listing.host) {
                     listing.authorized = true;
                 }
@@ -83,16 +83,16 @@ export const listingResolvers: IResolvers = {
                     const {
                         country,
                         city,
-                        streetName,
-                        administrativeLevels,
+                        state,
+                        neighbourhood,
                         zipcode,
-                    } = res[0];
+                    } = res[0] as any;
 
                     let admin: string | null = null;
 
-                    if (administrativeLevels) {
-                        admin = `${streetName} ${administrativeLevels.level1long} ${zipcode}`;
-                    }
+                    // if (neighbourhood && state) {
+                    //     admin = `${neighbourhood} ${state} ${zipcode}`;
+                    // }
 
                     if (city) query.city = city;
                     if (admin) query.admin = admin;
@@ -146,13 +146,15 @@ export const listingResolvers: IResolvers = {
                 input.address
             );
 
-            const { country, city, streetName, administrativeLevels, zipcode } = res[0];
+            console.log(res)
 
-            if (!country || !administrativeLevels || !city) {
+            const { country, city, neighbourhood, state, zipcode } = res[0] as any;
+
+            if (!country || !state || !city) {
                 throw new Error("invalid address input");
             }
 
-            const admin = `${streetName} ${administrativeLevels.level1long} ${zipcode}`
+            const admin = `${neighbourhood} ${state} ${zipcode}`;
 
             const imageUrl = await Cloudinary.upload(input.image);
 

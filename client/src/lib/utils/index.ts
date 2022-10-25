@@ -2,6 +2,12 @@ import { message, notification } from "antd";
 
 export const iconColor = "#1890ff";
 
+export let token = sessionStorage.getItem("token");
+
+export const setToken = (t: string) => {
+   token = t;
+}
+
 export const formatListingPrice = (price: number, round = true) => {
     const formattedListingPrice = round ? Math.round(price / 100) : price / 100;
     return `$${formattedListingPrice}`;

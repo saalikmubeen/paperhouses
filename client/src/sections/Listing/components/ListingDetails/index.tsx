@@ -6,7 +6,7 @@ import {
 } from "@ant-design/icons";
 import { Listing as ListingData } from "../../../../lib/graphql/queries/Listing/__generated__/Listing";
 import { iconColor } from "../../../../lib/utils";
-import  { GenerateMap } from "../../../../lib/components/Map";
+import  { ShowLocation } from "../../../../lib/components/Map";
 
 interface Props {
   listing: ListingData["listing"];
@@ -66,7 +66,7 @@ export const ListingDetails = ({ listing }: Props) => {
               </Paragraph>
           </div>
 
-          <GenerateMap address={address}/>
+          <ShowLocation address={address}/>
       </div>
   );
 };
