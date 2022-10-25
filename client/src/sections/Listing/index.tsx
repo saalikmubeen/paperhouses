@@ -11,7 +11,8 @@ import {
 import { Viewer } from "../../lib/types";
 import {
   ListingBookings,
-  ListingDetails
+  ListingDetails,
+  UpdateListing
 } from "./components";
 
 type Params = Record<"id", string>;
@@ -28,7 +29,7 @@ export const Listing = ({ viewer }: Props) => {
 
   const { id } = useParams<Params>() as Params
 
-  const { loading, data, error } = useQuery<ListingData, ListingVariables>(
+  const { loading, data, error, refetch } = useQuery<ListingData, ListingVariables>(
     LISTING,
     {
       variables: {
@@ -38,6 +39,10 @@ export const Listing = ({ viewer }: Props) => {
       }
     }
   );
+
+  const handleListingRefetch = async () => {
+      await refetch();
+  };
 
 
   if (loading) {
@@ -77,6 +82,7 @@ export const Listing = ({ viewer }: Props) => {
       <Row gutter={24} justify="space-between">
         <Col xs={24} lg={14}>
           {listingDetailsElement}
+          {viewer.id === listing?.host.id && <UpdateListing listing={listing} refetchListing={handleListingRefetch}/>}
           {listingBookingsElement}
         </Col>
         <Col xs={24} lg={10}>

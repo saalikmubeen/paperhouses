@@ -66,7 +66,7 @@ export const ListingDetails = ({ listing }: Props) => {
               </Paragraph>
           </div>
 
-          <ShowLocation address={address}/>
+          {/* <ShowLocation address={address}/> */}
       </div>
   );
 };

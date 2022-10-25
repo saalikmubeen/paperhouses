@@ -35,6 +35,15 @@ export interface LogInInput {
   code: string;
 }
 
+export interface UpdateListingInput {
+  title: string;
+  description: string;
+  image?: string | null;
+  type: ListingType;
+  price: number;
+  numOfGuests: number;
+}
+
 //==============================================================
 // END Enums and Input Objects
 //==============================================================
