@@ -111,7 +111,7 @@ export const UpdateListing: React.FC<Props> = ({listing, refetchListing}) => {
             <Button
                 type="primary"
                 onClick={showModal}
-                style={{ margin: "16px 0" }}
+                style={{ margin: "30px 0 16px 0" }}
             >
                 Update the details of this listing!
             </Button>

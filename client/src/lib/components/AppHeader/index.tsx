@@ -1,10 +1,11 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { Layout } from "antd";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Layout, Input } from "antd";
 import { MenuItems } from "./components";
 
 import logo from "./assets/tinyhouse-logo.png";
 import { Viewer } from "../../types";
+import { displayErrorMessage } from "../../utils";
 
 interface Props {
   viewer: Viewer;
@@ -12,20 +13,63 @@ interface Props {
 }
 
 const { Header } = Layout;
+const { Search } = Input;
 
 export const AppHeader = ({ viewer, setViewer }: Props) => {
+  const [search, setSearch] = useState("");
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+      const { pathname } = location;
+      const pathnameSubStrings = pathname.split("/");
+
+      if (!pathname.includes("/listings")) {
+          setSearch("");
+          return;
+      }
+
+      if (pathname.includes("/listings") && pathnameSubStrings.length === 3) {
+          var replaced = pathnameSubStrings[2].replace(/%20/g, " ");
+          setSearch(replaced);
+          return;
+      }
+  }, [location]);
+
+  const onSearch = (value: string) => {
+      const trimmedValue = value.trim();
+
+      if (trimmedValue) {
+          navigate(`/listings/${trimmedValue}`);
+      } else {
+          displayErrorMessage("Please enter a valid search!");
+      }
+  };
+
   return (
-    <Header className="app-header">
-      <div className="app-header__logo-search-section">
-        <div className="app-header__logo">
-          <Link to="/">
-            <img src={logo} alt="App logo" />
-          </Link>
-        </div>
-      </div>
-      <div className="app-header__menu-section">
-        <MenuItems viewer={viewer} setViewer={setViewer} />
-      </div>
-    </Header>
+      <Header className="app-header">
+          <div className="app-header__logo-search-section">
+              <div className="app-header__logo">
+                  <Link to="/">
+                      <img src={logo} alt="App logo" />
+                  </Link>
+              </div>
+
+              <div className="app-header__search-input">
+                  <Search
+                      placeholder="Search 'San Fransisco'"
+                      enterButton
+                      value={search}
+                      onChange={(evt) => setSearch(evt.target.value)}
+                      onSearch={onSearch}
+                  />
+              </div>
+
+          </div>
+          <div className="app-header__menu-section">
+              <MenuItems viewer={viewer} setViewer={setViewer} />
+          </div>
+      </Header>
   );
 };
