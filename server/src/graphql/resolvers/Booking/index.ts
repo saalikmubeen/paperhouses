@@ -150,7 +150,7 @@ export const bookingResolvers: IResolvers = {
                     );
                 }
 
-                await Stripe.charge(totalPrice, source, host.walletId);
+                // await Stripe.charge(totalPrice, source, host.walletId);
 
                 const insertRes = await db.bookings.insertOne({
                     _id: new ObjectId(),

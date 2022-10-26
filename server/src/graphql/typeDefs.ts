@@ -88,13 +88,19 @@ export const typeDefs = gql`
         numOfGuests: Int!
     }
 
-
     type UpdateListingResult {
         id: ID!
     }
 
     input ConnectStripeInput {
         code: String!
+    }
+
+    input CreateBookingInput {
+        id: ID!
+        source: String!
+        checkIn: String!
+        checkOut: String!
     }
 
     type Query {
@@ -116,5 +122,6 @@ export const typeDefs = gql`
         disconnectStripe: Viewer!
         hostListing(input: HostListingInput!): Listing!
         updateListing(id: ID!, input: UpdateListingInput!): UpdateListingResult!
+        createBooking(input: CreateBookingInput!): Booking!
     }
 `;

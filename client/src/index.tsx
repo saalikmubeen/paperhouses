@@ -7,6 +7,8 @@ import {
     createHttpLink,
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
 import reportWebVitals from './reportWebVitals';
 import "./styles/index.css";
 import { App } from './App';
@@ -40,11 +42,18 @@ const client = new ApolloClient({
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
+const stripePromise = loadStripe(
+    process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY!
+);
+
 root.render(
     <React.StrictMode>
-        <ApolloProvider client={client}>
-            <App />
-        </ApolloProvider>
+        <Elements stripe={stripePromise}>
+            <ApolloProvider client={client}>
+                <App />
+            </ApolloProvider>
+        </Elements>
     </React.StrictMode>
 );
 

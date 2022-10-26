@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { Col, Layout, Row } from "antd";
+import { Moment } from "moment";
 import { ErrorBanner, PageSkeleton } from "../../lib/components";
 import { LISTING } from "../../lib/graphql/queries";
 import {
@@ -12,7 +13,9 @@ import { Viewer } from "../../lib/types";
 import {
   ListingBookings,
   ListingDetails,
-  UpdateListing
+  UpdateListing,
+  CreateBookingModal,
+  ListingCreateBooking
 } from "./components";
 
 type Params = Record<"id", string>;
@@ -26,6 +29,9 @@ const PAGE_LIMIT = 3;
 
 export const Listing = ({ viewer }: Props) => {
   const [bookingsPage, setBookingsPage] = useState(1);
+   const [checkInDate, setCheckInDate] = useState<Moment | null>(null);
+   const [checkOutDate, setCheckOutDate] = useState<Moment | null>(null);
+   const [modalVisible, setModalVisible] = useState(false);
 
   const { id } = useParams<Params>() as Params
 
@@ -42,6 +48,12 @@ export const Listing = ({ viewer }: Props) => {
 
   const handleListingRefetch = async () => {
       await refetch();
+  };
+
+  const clearBookingData = () => {
+      setModalVisible(false);
+      setCheckInDate(null);
+      setCheckOutDate(null);
   };
 
 
@@ -76,6 +88,34 @@ export const Listing = ({ viewer }: Props) => {
     />
   ) : null;
 
+  const listingCreateBookingElement = listing ? (
+      <ListingCreateBooking
+          viewer={viewer}
+          host={listing.host}
+          price={listing.price}
+          bookingsIndex={listing.bookingsIndex}
+          checkInDate={checkInDate}
+          checkOutDate={checkOutDate}
+          setCheckInDate={setCheckInDate}
+          setCheckOutDate={setCheckOutDate}
+          setModalVisible={setModalVisible}
+      />
+  ) : null;
+
+  const createBookingModalElement =
+      listing && checkInDate && checkOutDate ? (
+          <CreateBookingModal
+              listingId={listing.id}
+              price={listing.price}
+              modalVisible={modalVisible}
+              checkInDate={checkInDate}
+              checkOutDate={checkOutDate}
+              setModalVisible={setModalVisible}
+              clearBookingData={clearBookingData}
+              refetchListing={handleListingRefetch}
+          />
+      ) : null;
+
 
   return (
     <Content className="listings">
@@ -86,8 +126,10 @@ export const Listing = ({ viewer }: Props) => {
           {listingBookingsElement}
         </Col>
         <Col xs={24} lg={10}>
+          {listingCreateBookingElement}
         </Col>
       </Row>
+      {createBookingModalElement}
     </Content>
   );
 };

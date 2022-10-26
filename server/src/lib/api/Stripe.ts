@@ -23,19 +23,25 @@ export const Stripe = {
     },
 
     charge: async (amount: number, source: string, stripeAccount: string) => {
-        const res = await client.charges.create(
-            {
-                amount,
-                currency: "usd",
-                source, // who's paying the fee
-                application_fee_amount: Math.round(amount * 0.05), // PaperHouses that's getting paid 5% of the amount for using our platform
-            },
-            {
-                stripe_account: stripeAccount, // owner/host of the listing getting paid the amount = amount  - 5% of the amount
-            }
-        );
+        try {
+            const res = await client.charges.create(
+                {
+                    amount,
+                    currency: "usd",
+                    source, // who's paying the fee
+                    application_fee_amount: Math.round(amount * 0.05), // PaperHouses that's getting paid 5% of the amount for using our platform
+                },
+                {
+                    stripe_account: stripeAccount, // owner/host of the listing getting paid the amount = amount  - 5% of the amount
+                }
+            );
 
-        if (res.status !== "succeeded") {
+            if (res.status !== "succeeded") {
+                throw new Error("failed to create charge with Stripe");
+            }
+            
+        }catch(err) {
+            console.log(err);
             throw new Error("failed to create charge with Stripe");
         }
     },
