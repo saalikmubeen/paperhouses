@@ -11,6 +11,7 @@ export const Stripe = {
 
         return response; // response contains access_token, stripe_user_id and more
     },
+
     disconnect: async (stripeUserId: string) => {
         // @ts-ignore
         const response = await client.oauth.deauthorize({
@@ -19,5 +20,23 @@ export const Stripe = {
         });
 
         return response;
+    },
+
+    charge: async (amount: number, source: string, stripeAccount: string) => {
+        const res = await client.charges.create(
+            {
+                amount,
+                currency: "usd",
+                source, // who's paying the fee
+                application_fee_amount: Math.round(amount * 0.05), // PaperHouses that's getting paid 5% of the amount for using our platform
+            },
+            {
+                stripe_account: stripeAccount, // owner/host of the listing getting paid the amount = amount  - 5% of the amount
+            }
+        );
+
+        if (res.status !== "succeeded") {
+            throw new Error("failed to create charge with Stripe");
+        }
     },
 };
