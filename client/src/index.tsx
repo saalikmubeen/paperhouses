@@ -5,8 +5,14 @@ import {
     ApolloProvider,
     InMemoryCache,
     createHttpLink,
+    split,
+    HttpLink,
+    Operation
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
+import { SubscriptionClient } from "subscriptions-transport-ws";
+import { WebSocketLink } from "@apollo/client/link/ws";
+import { getMainDefinition } from "@apollo/client/utilities";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import reportWebVitals from './reportWebVitals';
@@ -16,6 +22,15 @@ import { App } from './App';
 const httpLink = createHttpLink({
     uri: "/api",
 });
+
+const wsUrl = "ws://localhost:5000/api";
+
+const wsLink = new WebSocketLink(
+    new SubscriptionClient(wsUrl, {
+        reconnect: true,
+        lazy: true
+    })
+);
 
 const tokenLink = setContext((_, { headers }) => {
     // get the X-CSRF-TOKEN token from session storage if it exists
@@ -30,9 +45,23 @@ const tokenLink = setContext((_, { headers }) => {
     };
 });
 
+function isSubscription(operation: Operation) {
+    const definition = getMainDefinition(operation.query);
+    return (
+        definition.kind === "OperationDefinition" &&
+        definition.operation === "subscription"
+    );
+}
+
+const splitLink = split(
+    isSubscription,
+    wsLink,
+    tokenLink.concat(httpLink)
+);
+
 
 const client = new ApolloClient({
-    link: tokenLink.concat(httpLink),
+    link: splitLink,
     credentials: 'include',
     cache: new InMemoryCache(),
 });
@@ -43,9 +72,7 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
-const stripePromise = loadStripe(
-    process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY!
-);
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY!);
 
 root.render(
     <React.StrictMode>

@@ -124,4 +124,8 @@ export const typeDefs = gql`
         updateListing(id: ID!, input: UpdateListingInput!): UpdateListingResult!
         createBooking(input: CreateBookingInput!): Booking!
     }
+
+    type Subscription {
+        listingBooked(hostId: ID!, isHost: Boolean!): Listing!
+    }
 `;

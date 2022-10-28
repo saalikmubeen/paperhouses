@@ -3,6 +3,7 @@ import { Request } from "express";
 import { ObjectId } from "mongodb";
 import { Cloudinary, Google } from "../../../lib/api";
 import { GeoCoder } from "../../../lib/api/Geocoder";
+import { pubSub } from "../../../lib/pubSub";
 import { Database, Listing, ListingType, User } from "../../../lib/types";
 import { authorize } from "../../../lib/utils";
 import {
@@ -18,6 +19,7 @@ import {
     UpdateListingArgs,
     UpdateListingInput
 } from "./types";
+
 
 const verifyHostListingInput = ({
     title,
@@ -180,8 +182,8 @@ export const listingResolvers: IResolvers = {
             _root: undefined,
             { input, id }: UpdateListingArgs,
             { db, req }: { db: Database; req: Request }
-        ): Promise<{id: string}> => {
-            verifyHostListingInput({...input, image: ""});
+        ): Promise<{ id: string }> => {
+            verifyHostListingInput({ ...input, image: "" });
 
             let viewer = await authorize(db, req);
             if (!viewer) {
@@ -204,14 +206,14 @@ export const listingResolvers: IResolvers = {
 
             let imageUrl: string | null = null;
 
-            if(input.image) {
+            if (input.image) {
                 imageUrl = await Cloudinary.upload(input.image);
             }
 
-            const updates = {...input};
+            const updates = { ...input };
 
-            if(imageUrl) {
-                updates.image = imageUrl
+            if (imageUrl) {
+                updates.image = imageUrl;
             }
 
             await db.listings.updateOne(
@@ -224,10 +226,27 @@ export const listingResolvers: IResolvers = {
             );
 
             return {
-                id: listing._id
+                id: listing._id,
             };
         },
     },
+
+    Subscription: {
+        listingBooked: {
+            subscribe(
+                _parent,
+                {hostId, isHost}: { hostId: String, isHost: Boolean },
+                { db, req }: { db: Database; req: Request },
+                _info
+            ) { 
+
+                if(isHost) {
+                    return pubSub.asyncIterator(`LISTING_BOOKED ${hostId}`);
+                }
+            },
+        },
+    },
+
     Listing: {
         id: (listing: Listing): string => {
             return listing._id.toString();

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import { useQuery } from "@apollo/client";
+import { useQuery, useSubscription } from "@apollo/client";
 import { Col, Layout, Row } from "antd";
 import { USER } from "../../lib/graphql/queries";
 import {
@@ -10,6 +10,9 @@ import {
 import { ErrorBanner, PageSkeleton } from "../../lib/components";
 import { Viewer } from "../../lib/types";
 import { UserBookings, UserListings, UserProfile } from "./components";
+import { LISTING_BOOKED } from "../../lib/graphql/subscriptions/ListingBooked";
+import { ListingBooked as ListingBookedData, ListingBookedVariables } from "../../lib/graphql/subscriptions/ListingBooked/__generated__/ListingBooked";
+import { displaySuccessNotification } from "../../lib/utils";
 
 interface Props {
     viewer: Viewer;
@@ -38,6 +41,13 @@ export const User = ({
       limit: PAGE_LIMIT
     }
   });
+  
+   const { data: subscriptionData } = useSubscription<ListingBookedData, ListingBookedVariables>(LISTING_BOOKED, {
+       variables: { hostId: params.id, isHost: viewer.id === params.id },
+       onData({ data }) {
+          displaySuccessNotification(`Yayyyy 🎉✨!!! ${data.data?.listingBooked.title} has been booked by someone.`);
+       },
+   });
 
   const handleUserRefetch = async () => {
       await refetch();

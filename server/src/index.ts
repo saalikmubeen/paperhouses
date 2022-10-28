@@ -1,5 +1,6 @@
 require("dotenv").config();
 
+import http from "http";
 import express, { Application } from "express";
 import { ApolloServer } from "apollo-server-express";
 import cookieParser from "cookie-parser";
@@ -20,16 +21,23 @@ const mount = async (app: Application) => {
 
     app.use(cookieParser(process.env.SECRET));
 
-    const server = new ApolloServer({
+    const apolloServer = new ApolloServer({
         typeDefs,
         resolvers,
+        subscriptions: {
+            path: "/api",
+            onConnect: (connectionParams, webSocket, context) => {
+                console.log("Connected!");
+            },
+        },
         context: ({ req, res }) => ({ db, req, res }),
     });
 
-    server.applyMiddleware({ app, path: "/api" });
-    app.listen(PORT);
+    apolloServer.applyMiddleware({ app, path: "/api" });
 
-    console.log(`[app] : http://localhost:${PORT}`);
+    const httpServer = http.createServer(app);
+    apolloServer.installSubscriptionHandlers(httpServer);
+    httpServer.listen(PORT, () => console.log(`[app] : http://localhost:${PORT}`));
 };
 
 mount(express());
