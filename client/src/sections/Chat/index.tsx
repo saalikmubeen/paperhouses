@@ -1,19 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { Input, Button, Layout, Spin } from "antd";
-import { useSubscription, useMutation, useLazyQuery, useQuery } from "@apollo/client";
+import React, { useEffect } from "react";
+import { Layout, Spin } from "antd";
+import { useQuery } from "@apollo/client";
 import { useParams } from "react-router-dom";
 import { SEND_MESSAGE } from "../../lib/graphql/subscriptions/SendMessage";
-import {
-    SendMessage as SendMessageData,
-    SendMessageVariables,
-} from "../../lib/graphql/subscriptions/SendMessage/__generated__/SendMessage";
 import { Viewer } from "../../lib/types";
-import {
-    CreateMessage as CreateMessageData,
-    CreateMessageVariables,
-} from "../../lib/graphql/mutations/CreateMessage/__generated__/CreateMessage";
-import { CREATE_MESSAGE } from "../../lib/graphql/mutations";
-import { displaySuccessNotification } from "../../lib/utils";
 import { CHAT } from "../../lib/graphql/queries";
 import {
     Chat as ChatData,
@@ -24,8 +14,9 @@ import {
     ErrorBanner,
     PageSkeleton,
 } from "../../lib/components";
-
-const { TextArea } = Input;
+import { Messages } from "./components/Messages";
+import { NewMessageInput } from "./components/NewMessageInput";
+import { SendMessage as SendMessageData } from "../../lib/graphql/subscriptions/SendMessage/__generated__/SendMessage";
 
 const { Content } = Layout;
 
@@ -37,7 +28,6 @@ type Params = Record<"recipientId", string>;
 
 export const Chat = (props: Props) => {
     let params = useParams<Params>() as Params;
-    const [content, setContent] = useState("");
 
     const { loading, error, data, subscribeToMore } = useQuery<
         ChatData,
@@ -47,44 +37,6 @@ export const Chat = (props: Props) => {
             recipient: params.recipientId
         }
     });
-
-    // SUBSCRIPTION TO RECEIVE MESSAGE
-    //  useSubscription<SendMessageData, SendMessageVariables>(SEND_MESSAGE, {
-    //     variables: { to: params.recipientId },
-    //     onData({ data }) {
-    //         console.log(data.data?.sendMessage);
-    //     },
-
-        
-    // });
-
-    // MUTATION TO SEND MESSAGE
-    const [createMessage] = useMutation<
-        CreateMessageData,
-        CreateMessageVariables
-    >(CREATE_MESSAGE, {
-        onCompleted: () => {
-            displaySuccessNotification("Message Sent");
-        },
-        onError: (err) => {
-            console.log(err);
-        },
-    });
-
-    const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        setContent(e.target.value);
-    };
-
-    const handleSend = () => {
-        createMessage({
-            variables: {
-                input: {
-                    content,
-                    to: params.recipientId,
-                },
-            },
-        });
-    };
 
     useEffect(() => {
 
@@ -135,40 +87,19 @@ export const Chat = (props: Props) => {
 
     const chat = data ? data.chat : null;
 
+    if(!chat) {
+        return null;
+    }
+
+    const recipient = chat.participants.find((participant) => {
+        return participant.id !== props.viewer.id;
+    });
+
+
     return (
-        <div>
-            <TextArea
-                showCount
-                maxLength={100}
-                style={{ height: 120 }}
-                onChange={onChange}
-                value={content}
-                placeholder="can resize"
-            />
-
-            <Button type="primary" shape="round" onClick={handleSend}>
-                Send
-            </Button>
-
-
-            <div>
-                {
-                    !chat ? null : (
-                        <div>
-                            {
-                                chat.messages.map((message) => {
-                                    return (
-                                        <div key={message.id}>
-                                            <h3>{message.content}</h3>
-                                            <span>{message.author.name}</span>
-                                        </div>
-                                    )
-                                })
-                            }
-                        </div>
-                    )
-                }
-            </div>
+        <div className="chat-container">
+            <Messages viewer={props.viewer} messages={chat.messages} recipient={recipient!}/>
+            <NewMessageInput recipientId={params.recipientId} />
         </div>
     );
 };

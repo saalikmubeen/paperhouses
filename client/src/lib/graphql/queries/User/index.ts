@@ -43,6 +43,11 @@ export const USER = gql`
             }
             chats {
                 id
+                participants {
+                    id
+                    name
+                    avatar
+                }
             }
         }
     }

@@ -37,8 +37,8 @@ export const messageResolvers: IResolvers = {
                 },
             });
 
-            if(!chat) {
-                throw new Error("Chat doesn't exist!")
+            if (!chat) {
+                throw new Error("Chat doesn't exist!");
             }
 
             await db.chat.updateOne(
@@ -67,30 +67,39 @@ export const messageResolvers: IResolvers = {
                     db,
                     req,
                     pubSub,
-                    connection
-                }: { db: Database; req: Request; pubSub: PubSub, connection: any },
+                    connection,
+                }: {
+                    db: Database;
+                    req: Request;
+                    pubSub: PubSub;
+                    connection: any;
+                },
                 _info
             ) {
-                
                 const reqCookie = connection.context.req.headers.cookie;
                 var cookies = cookie.parse(reqCookie);
 
-                if(!cookies.viewer) {
+                if (!cookies.viewer) {
                     throw new Error("viewer cannot be found | unauthorized");
                 }
 
-                const viewerId = cookieParser.signedCookie(cookies.viewer, process.env.SECRET!);
+                const viewerId = cookieParser.signedCookie(
+                    cookies.viewer,
+                    process.env.SECRET!
+                );
 
-                console.log("Viewer Id:", viewerId)
-                if(!viewerId) {
+                // console.log("Viewer Id:", viewerId);
+                if (!viewerId) {
                     throw new Error("viewer cannot be found | unauthorized");
                 }
-                
+
+                // console.log("X-CSRF-TOKEN:", connection.context.csrfToken);
+
                 const viewer = await db.users.findOne({
                     _id: viewerId,
                     // token,
                 });
-                
+
                 if (!viewer) {
                     throw new Error("viewer cannot be found | unauthorized");
                 }
@@ -101,7 +110,7 @@ export const messageResolvers: IResolvers = {
                     },
                 });
 
-                if(chat) {
+                if (chat) {
                     return pubSub.asyncIterator(`SEND_MESSAGE ${chat._id}`);
                 }
             },

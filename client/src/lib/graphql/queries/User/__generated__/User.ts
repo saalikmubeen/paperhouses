@@ -47,9 +47,17 @@ export interface User_user_listings {
   result: User_user_listings_result[];
 }
 
+export interface User_user_chats_participants {
+  __typename: "User";
+  id: string;
+  name: string;
+  avatar: string;
+}
+
 export interface User_user_chats {
   __typename: "Chat";
   id: string;
+  participants: User_user_chats_participants[];
 }
 
 export interface User_user {

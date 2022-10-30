@@ -15,6 +15,11 @@ export const CHAT = gql`
                     contact
                 }
             }
+            participants {
+                id
+                name
+                avatar
+            }
         }
     }
 `;

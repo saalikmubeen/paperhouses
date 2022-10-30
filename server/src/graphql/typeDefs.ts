@@ -122,10 +122,6 @@ export const typeDefs = gql`
         to: String!
     }
 
-    input CreateChatInput {
-        recipient: String!
-    }
-
     type Query {
         authUrl: String!
         user(id: ID!): User!
@@ -148,7 +144,6 @@ export const typeDefs = gql`
         updateListing(id: ID!, input: UpdateListingInput!): UpdateListingResult!
         createBooking(input: CreateBookingInput!): Booking!
         createMessage(input: CreateMessageInput!): Message!
-        createChat(input: CreateChatInput!): Chat!
     }
 
     type Subscription {

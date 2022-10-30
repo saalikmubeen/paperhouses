@@ -23,10 +23,18 @@ export interface Chat_chat_messages {
   author: Chat_chat_messages_author;
 }
 
+export interface Chat_chat_participants {
+  __typename: "User";
+  id: string;
+  name: string;
+  avatar: string;
+}
+
 export interface Chat_chat {
   __typename: "Chat";
   id: string;
   messages: Chat_chat_messages[];
+  participants: Chat_chat_participants[];
 }
 
 export interface Chat {

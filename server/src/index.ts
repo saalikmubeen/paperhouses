@@ -32,13 +32,15 @@ const mount = async (app: Application) => {
                 // console.log((webSocket as any).upgradeReq.headers.cookie);
                 return {
                     req: context.request,
+                    csrfToken: (connectionParams as any).xCsrfToken || ""
                 };
             },
         },
         context: ({ req, res, connection }) => {
 
             if(connection) {
-                // console.log(connection.context);
+                // the object returned from onConnect will be connection.context
+                // console.log(connection.context.csrfToken);
             }
 
             return { db, req, res, pubSub: pubSub, connection };

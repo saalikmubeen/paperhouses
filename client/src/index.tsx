@@ -27,7 +27,10 @@ const wsUrl = "ws://localhost:5000/api";
 const wsLink = new WebSocketLink(
     new SubscriptionClient(wsUrl, {
         reconnect: true,
-        lazy: true
+        lazy: true,
+        connectionParams: {
+            xCsrfToken: sessionStorage.getItem("token") || "",
+        },
     })
 );
 
