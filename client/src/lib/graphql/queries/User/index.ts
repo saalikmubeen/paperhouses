@@ -41,6 +41,9 @@ export const USER = gql`
                     numOfGuests
                 }
             }
+            chats {
+                id
+            }
         }
     }
 `;

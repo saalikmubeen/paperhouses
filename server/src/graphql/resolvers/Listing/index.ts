@@ -1,9 +1,9 @@
 import { IResolvers } from "apollo-server-express";
 import { Request } from "express";
+import { PubSub } from "graphql-subscriptions";
 import { ObjectId } from "mongodb";
 import { Cloudinary, Google } from "../../../lib/api";
 import { GeoCoder } from "../../../lib/api/Geocoder";
-import { pubSub } from "../../../lib/pubSub";
 import { Database, Listing, ListingType, User } from "../../../lib/types";
 import { authorize } from "../../../lib/utils";
 import {
@@ -236,7 +236,7 @@ export const listingResolvers: IResolvers = {
             subscribe(
                 _parent,
                 {hostId, isHost}: { hostId: String, isHost: Boolean },
-                { db, req }: { db: Database; req: Request },
+                { db, req, pubSub }: { db: Database; req: Request, pubSub: PubSub },
                 _info
             ) { 
 

@@ -651,6 +651,7 @@ const users: User[] = [
             new ObjectId("5d378db94e84753160e08b4b"),
             new ObjectId("5d378db94e84753160e08b4c"),
         ],
+        chats: [],
     },
     {
         _id: "5d378db94e84753160e08b56",
@@ -675,6 +676,7 @@ const users: User[] = [
             new ObjectId("5d378db94e84753160e08b53"),
             new ObjectId("5d378db94e84753160e08b54"),
         ],
+        chats: [],
     },
     {
         _id: "5d378db94e84753160e08b57",
@@ -697,6 +699,7 @@ const users: User[] = [
             new ObjectId("5d378db94e84753160e08b48"),
             new ObjectId("5d378db94e84753160e08b4d"),
         ],
+        chats: [],
     },
     {
         _id: "5d378db94e84753160e08b58",
@@ -712,6 +715,7 @@ const users: User[] = [
             new ObjectId("5d378db94e84753160e08b40"),
             new ObjectId("5d378db94e84753160e08b44"),
         ],
+        chats: [],
     },
     {
         _id: "5d378db94e84753160e08b59",
@@ -733,6 +737,7 @@ const users: User[] = [
             new ObjectId("5d378db94e84753160e08b4f"),
             new ObjectId("5d378db94e84753160e08b52"),
         ],
+        chats: [],
     },
 ];
 

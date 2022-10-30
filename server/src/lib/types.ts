@@ -89,13 +89,30 @@ export interface User {
     contact: string;
     walletId?: string;
     income: number;
-    bookings: ObjectId[];  // refers to the document in the bookings collection
-    listings: ObjectId[];  // refers to the document in the listings collection
-    authorized?: boolean;  // not a database field
+    bookings: ObjectId[]; // refers to the document in the bookings collection
+    listings: ObjectId[]; // refers to the document in the listings collection
+    authorized?: boolean; // not a database field
+    chats: ObjectId[];
+}
+
+
+export interface Message {
+    _id: ObjectId;
+    content: string;
+    author: string;
+    createdAt: string;
+}
+
+export interface Chat {
+    _id: ObjectId;
+    participants: ObjectId[];
+    messages: ObjectId[]; // array of message ids
 }
 
 export interface Database {
     bookings: Collection<Booking>;
     listings: Collection<Listing>;
     users: Collection<User>;
+    messages: Collection<Message>;
+    chat: Collection<Chat>;
 }

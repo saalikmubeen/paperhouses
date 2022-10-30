@@ -86,6 +86,7 @@ const logInViaGoogle = async (
             income: 0,
             bookings: [],
             listings: [],
+            chats: []
         });
 
         viewer = insertResult.ops[0];

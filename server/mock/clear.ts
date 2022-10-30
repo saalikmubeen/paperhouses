@@ -11,6 +11,8 @@ const clear = async () => {
         const bookings = await db.bookings.find({}).toArray();
         const listings = await db.listings.find({}).toArray();
         const users = await db.users.find({}).toArray();
+        const messages = await db.messages.find({}).toArray();
+        const chat = await db.chat.find({}).toArray();
 
         if (bookings.length > 0) {
             await db.bookings.drop();
@@ -22,6 +24,14 @@ const clear = async () => {
 
         if (users.length > 0) {
             await db.users.drop();
+        }
+
+        if (messages.length > 0) {
+            await db.messages.drop();
+        }
+
+        if (chat.length > 0) {
+            await db.chat.drop();
         }
 
         console.log("[clear] : success");

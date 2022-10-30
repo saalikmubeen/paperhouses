@@ -17,6 +17,7 @@ import { LogInVariables, LogIn as LogInData  } from "./lib/graphql/mutations/Log
 import { AppHeaderSkeleton, ErrorBanner } from "./lib/components";
 import { AppHeader } from "./lib/components/AppHeader";
 import { Stripe } from "./sections/Stripe";
+import { Chat } from "./sections/Chat";
 
 const initialViewer: Viewer = {
     id: null,
@@ -73,19 +74,22 @@ export const App = () => {
 
                 <Routes>
                     <Route path="/" element={<Home />} />
-                    <Route path="/host" element={<Host viewer={viewer}/>} />
+                    <Route path="/host" element={<Host viewer={viewer} />} />
                     <Route
                         path="/login"
                         element={<Login setViewer={setViewer} />}
                     />
                     <Route
                         path="/stripe"
-                        element={<Stripe viewer={viewer}  setViewer={setViewer} />}
+                        element={
+                            <Stripe viewer={viewer} setViewer={setViewer} />
+                        }
                     />
-                    <Route path="/listing/:id" element={<Listing viewer={viewer} />} />
+                    <Route
+                        path="/listing/:id"
+                        element={<Listing viewer={viewer} />}
+                    />
 
-                    {/* <Route path="/listings/:location" element={<Listings />} />
-                        <Route path="/listings" element={<Listings />} /> */}
                     <Route path="/listings">
                         <Route index element={<Listings />} />
                         <Route path=":location" element={<Listings />} />
@@ -95,6 +99,12 @@ export const App = () => {
                         path="/user/:id"
                         element={<User viewer={viewer} setViewer={setViewer} />}
                     />
+
+                    <Route
+                        path="/chat/:recipientId"
+                        element={<Chat viewer={viewer} />}
+                    />
+
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </Layout>

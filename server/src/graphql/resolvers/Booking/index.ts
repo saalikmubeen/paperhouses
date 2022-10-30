@@ -1,8 +1,8 @@
 import { IResolvers } from "apollo-server-express";
 import { Request } from "express";
+import { PubSub } from "graphql-subscriptions";
 import { ObjectId } from "mongodb";
 import { Stripe } from "../../../lib/api";
-import { pubSub } from "../../../lib/pubSub";
 import { Database, Listing, Booking, BookingsIndex } from "../../../lib/types";
 import { authorize } from "../../../lib/utils";
 import { CreateBookingArgs } from "./types";
@@ -77,7 +77,7 @@ export const bookingResolvers: IResolvers = {
         createBooking: async (
             _root: undefined,
             { input }: CreateBookingArgs,
-            { db, req }: { db: Database; req: Request }
+            { db, req, pubSub }: { db: Database; req: Request, pubSub: PubSub }
         ): Promise<Booking> => {
             try {
                 const { id, source, checkIn, checkOut } = input;

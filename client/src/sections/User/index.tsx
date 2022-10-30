@@ -10,7 +10,7 @@ import {
 import { ErrorBanner, PageSkeleton } from "../../lib/components";
 import { Viewer } from "../../lib/types";
 import { UserBookings, UserListings, UserProfile } from "./components";
-import { LISTING_BOOKED } from "../../lib/graphql/subscriptions/ListingBooked";
+import { LISTING_BOOKED } from "../../lib/graphql/subscriptions";
 import { ListingBooked as ListingBookedData, ListingBookedVariables } from "../../lib/graphql/subscriptions/ListingBooked/__generated__/ListingBooked";
 import { displaySuccessNotification } from "../../lib/utils";
 

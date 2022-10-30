@@ -1,5 +1,5 @@
 import { MongoClient } from "mongodb";
-import { Booking, Database, Listing, User } from "../lib/types";
+import { Booking, Chat, Database, Listing, Message, User } from "../lib/types";
 
 // const url = `mongodb+srv://${process.env.DB_USER}:${
 //   process.env.DB_USER_PASSWORD
@@ -15,5 +15,7 @@ export const connectDatabase = async (): Promise<Database> => {
       bookings: db.collection<Booking>("bookings"),
       listings: db.collection<Listing>("listings"),
       users: db.collection<User>("users"),
+      messages: db.collection<Message>("messages"),
+      chat: db.collection<Chat>("chat")
   };
 };

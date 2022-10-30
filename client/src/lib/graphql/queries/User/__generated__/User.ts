@@ -47,6 +47,11 @@ export interface User_user_listings {
   result: User_user_listings_result[];
 }
 
+export interface User_user_chats {
+  __typename: "Chat";
+  id: string;
+}
+
 export interface User_user {
   __typename: "User";
   id: string;
@@ -57,6 +62,7 @@ export interface User_user {
   income: number | null;
   bookings: User_user_bookings | null;
   listings: User_user_listings;
+  chats: User_user_chats[] | null;
 }
 
 export interface User {

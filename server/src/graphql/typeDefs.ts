@@ -54,6 +54,7 @@ export const typeDefs = gql`
         income: Int
         bookings(limit: Int!, page: Int!): Bookings
         listings(limit: Int!, page: Int!): Listings!
+        chats: [Chat!]
     }
 
     # currently logged in user
@@ -63,6 +64,19 @@ export const typeDefs = gql`
         avatar: String
         hasWallet: Boolean
         didRequest: Boolean! # boolean to identify if we already attempted to obtain Viewers's info
+    }
+
+    type Message {
+        id: ID!
+        content: String!
+        author: User!
+        createdAt: String!
+    }
+
+    type Chat {
+        id: ID!
+        participants: [User!]!
+        messages: [Message!]!
     }
 
     input LogInInput {
@@ -103,6 +117,15 @@ export const typeDefs = gql`
         checkOut: String!
     }
 
+    input CreateMessageInput {
+        content: String!
+        to: String!
+    }
+
+    input CreateChatInput {
+        recipient: String!
+    }
+
     type Query {
         authUrl: String!
         user(id: ID!): User!
@@ -113,6 +136,7 @@ export const typeDefs = gql`
             limit: Int!
             page: Int!
         ): Listings!
+        chat(recipient: String!): Chat!
     }
 
     type Mutation {
@@ -123,9 +147,12 @@ export const typeDefs = gql`
         hostListing(input: HostListingInput!): Listing!
         updateListing(id: ID!, input: UpdateListingInput!): UpdateListingResult!
         createBooking(input: CreateBookingInput!): Booking!
+        createMessage(input: CreateMessageInput!): Message!
+        createChat(input: CreateChatInput!): Chat!
     }
 
     type Subscription {
         listingBooked(hostId: ID!, isHost: Boolean!): Listing!
+        sendMessage(to: ID!): Message!
     }
 `;

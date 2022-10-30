@@ -1,6 +1,6 @@
 import { Request } from "express";
 import { IResolvers } from "apollo-server-express";
-import { Database, User } from "../../../lib/types";
+import { Chat, Database, User } from "../../../lib/types";
 import { UserArgs, UserBookingsArgs, UserBookingsData, UserListingsArgs, UserListingsData } from "./types";
 import { authorize } from "../../../lib/utils";
 
@@ -13,7 +13,7 @@ export const userResolvers: IResolvers = {
         ): Promise<User> => {
             try {
                 const user = await db.users.findOne({ _id: id });
-                console.log(user)
+                console.log(user);
 
                 if (!user) {
                     throw new Error("User not found!");
@@ -109,5 +109,24 @@ export const userResolvers: IResolvers = {
             }
         },
 
+        chats: async (
+            user: User,
+            args,
+            { db }: { db: Database }
+        ): Promise<Chat[] | null> => {
+            try {
+                if (!user.authorized) {
+                    return null;
+                }
+
+                let cursor = await db.chat.find({
+                    _id: { $in: user.chats },
+                });
+
+                return cursor.toArray();
+            } catch (error) {
+                throw new Error(`Failed to query user chats: ${error}`);
+            }
+        },
     },
 };

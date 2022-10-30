@@ -6,6 +6,7 @@ import { ApolloServer } from "apollo-server-express";
 import cookieParser from "cookie-parser";
 import { connectDatabase } from "./database";
 import { typeDefs, resolvers } from "./graphql";
+import { pubSub } from "./lib/pubSub";
 
 const PORT = process.env.PORT || 5000;
 
@@ -28,9 +29,20 @@ const mount = async (app: Application) => {
             path: "/api",
             onConnect: (connectionParams, webSocket, context) => {
                 console.log("Connected!");
+                // console.log((webSocket as any).upgradeReq.headers.cookie);
+                return {
+                    req: context.request,
+                };
             },
         },
-        context: ({ req, res }) => ({ db, req, res }),
+        context: ({ req, res, connection }) => {
+
+            if(connection) {
+                // console.log(connection.context);
+            }
+
+            return { db, req, res, pubSub: pubSub, connection };
+        },
     });
 
     apolloServer.applyMiddleware({ app, path: "/api" });
@@ -41,7 +53,3 @@ const mount = async (app: Application) => {
 };
 
 mount(express());
-
-// Note: You will need to introduce a .env file at the root of the project
-// that has the PORT, DB_USER, DB_USER_PASSWORD, and DB_CLUSTER environment variables defined.
-// Otherwise, the server will not be able to start and/or connect to the database

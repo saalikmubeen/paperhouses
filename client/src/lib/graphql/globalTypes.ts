@@ -28,6 +28,11 @@ export interface CreateBookingInput {
   checkOut: string;
 }
 
+export interface CreateMessageInput {
+  content: string;
+  to: string;
+}
+
 export interface HostListingInput {
   title: string;
   description: string;

@@ -31,7 +31,7 @@ export const ListingDetails = ({ listing }: Props) => {
                   className="listing-details__city-address"
               >
                   <Link to={`/listings/${city}`}>
-                      <EnvironmentOutlined style={{ color: iconColor }}  />{" "}
+                      <EnvironmentOutlined style={{ color: iconColor }} />{" "}
                       {city}
                   </Link>
                   <Divider type="vertical" />
@@ -49,6 +49,15 @@ export const ListingDetails = ({ listing }: Props) => {
                   <Avatar src={host.avatar} size={64} />
                   <Title level={2} className="listing-details__host-name">
                       {host.name}
+                  </Title>
+              </Link>
+          </div>
+
+          <div>
+              <Link to={`/chat/${host.id}`}>
+                  <Title level={5}>
+                      <Tag color={iconColor}>Message</Tag> {host.name} to know
+                      more.
                   </Title>
               </Link>
           </div>
