@@ -79,6 +79,7 @@ export interface Listing {
     price: number;
     numOfGuests: number;
     authorized?: boolean;
+    reviews: Review[];
 }
 
 export interface User {
@@ -107,6 +108,14 @@ export interface Chat {
     _id: ObjectId;
     participants: ObjectId[];
     messages: ObjectId[]; // array of message ids
+}
+
+export interface Review {
+    _id: ObjectId;
+    rating: number;
+    comment?: string;
+    createdAt: string;
+    author: string;
 }
 
 export interface Database {

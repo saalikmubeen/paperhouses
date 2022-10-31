@@ -166,6 +166,7 @@ export const listingResolvers: IResolvers = {
                 admin,
                 city,
                 host: viewer._id,
+                reviews: []
             });
 
             const insertedListing: Listing = insertResult.ops[0];

@@ -38,6 +38,23 @@ export interface Listing_listing_bookings {
   result: Listing_listing_bookings_result[];
 }
 
+export interface Listing_listing_reviews_author {
+  __typename: "User";
+  id: string;
+  name: string;
+  avatar: string;
+  contact: string;
+}
+
+export interface Listing_listing_reviews {
+  __typename: "Review";
+  id: string;
+  rating: number;
+  comment: string | null;
+  createdAt: string;
+  author: Listing_listing_reviews_author;
+}
+
 export interface Listing_listing {
   __typename: "Listing";
   id: string;
@@ -52,6 +69,7 @@ export interface Listing_listing {
   bookingsIndex: string;
   price: number;
   numOfGuests: number;
+  reviews: Listing_listing_reviews[];
 }
 
 export interface Listing {

@@ -19,7 +19,7 @@ import "./styles/index.css";
 import { App } from './App';
 
 const httpLink = createHttpLink({
-    uri: "/api",
+    uri: "http://localhost:5000/api",
 });
 
 const wsUrl = "ws://localhost:5000/api";

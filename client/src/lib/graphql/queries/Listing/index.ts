@@ -32,6 +32,18 @@ export const LISTING = gql`
             bookingsIndex
             price
             numOfGuests
+            reviews {
+                id
+                rating
+                comment
+                createdAt
+                author {
+                    id
+                    name
+                    avatar
+                    contact
+                }
+            }
         }
     }
 `;

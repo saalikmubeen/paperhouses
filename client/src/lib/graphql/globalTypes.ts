@@ -33,6 +33,12 @@ export interface CreateMessageInput {
   to: string;
 }
 
+export interface CreateReviewInput {
+  listingId: string;
+  rating: number;
+  comment?: string | null;
+}
+
 export interface HostListingInput {
   title: string;
   description: string;

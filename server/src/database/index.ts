@@ -16,6 +16,6 @@ export const connectDatabase = async (): Promise<Database> => {
       listings: db.collection<Listing>("listings"),
       users: db.collection<User>("users"),
       messages: db.collection<Message>("messages"),
-      chat: db.collection<Chat>("chat")
+      chat: db.collection<Chat>("chat"),
   };
 };

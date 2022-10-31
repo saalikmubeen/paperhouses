@@ -37,6 +37,7 @@ export const typeDefs = gql`
         bookingsIndex: String!
         price: Int!
         numOfGuests: Int!
+        reviews: [Review!]!
     }
 
     type Listings {
@@ -77,6 +78,14 @@ export const typeDefs = gql`
         id: ID!
         participants: [User!]!
         messages: [Message!]!
+    }
+
+    type Review {
+        id: ID!
+        rating: Int!
+        comment: String
+        createdAt: String!
+        author: User!
     }
 
     input LogInInput {
@@ -122,6 +131,12 @@ export const typeDefs = gql`
         to: String!
     }
 
+    input CreateReviewInput {
+        listingId: String!
+        rating: Int!
+        comment: String
+    }
+
     type Query {
         authUrl: String!
         user(id: ID!): User!
@@ -144,6 +159,7 @@ export const typeDefs = gql`
         updateListing(id: ID!, input: UpdateListingInput!): UpdateListingResult!
         createBooking(input: CreateBookingInput!): Booking!
         createMessage(input: CreateMessageInput!): Message!
+        createReview(input: CreateReviewInput!): Review!
     }
 
     type Subscription {
