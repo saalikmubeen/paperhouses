@@ -6,12 +6,12 @@ import { ApolloServer } from "apollo-server-express";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import compression from "compression";
-import cors from "cors";
 import { connectDatabase } from "./database";
 import { typeDefs, resolvers } from "./graphql";
 import { pubSub } from "./lib/pubSub";
 
 const PORT = process.env.PORT || 9000;
+const FRONTEND_URL = process.env.PUBLIC_URL || "http://localhost:3000"; 
 
 const mount = async (app: Application) => {
     const db = await connectDatabase();
@@ -54,7 +54,7 @@ const mount = async (app: Application) => {
         
     });
 
-    apolloServer.applyMiddleware({ app, path: "/api", cors : { origin: "http://localhost:3000", credentials: true } });
+    apolloServer.applyMiddleware({ app, path: "/api", cors : { origin: FRONTEND_URL, credentials: true } });
 
     const httpServer = http.createServer(app);
     apolloServer.installSubscriptionHandlers(httpServer);
