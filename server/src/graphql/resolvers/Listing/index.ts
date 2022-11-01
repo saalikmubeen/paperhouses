@@ -233,7 +233,7 @@ export const listingResolvers: IResolvers = {
             );
 
             return {
-                id: listing._id,
+                id: listing._id.toString(),
             };
         },
     },

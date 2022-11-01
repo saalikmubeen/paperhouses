@@ -108,7 +108,7 @@ export interface Message {
 
 export interface Chat {
     _id: ObjectId;
-    participants: ObjectId[];
+    participants: string[];
     messages: ObjectId[]; // array of message ids
 }
 
