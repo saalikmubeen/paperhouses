@@ -80,6 +80,8 @@ export interface Listing {
     numOfGuests: number;
     authorized?: boolean;
     reviews: Review[];
+    numReviews: number;
+    rating: number;
 }
 
 export interface User {

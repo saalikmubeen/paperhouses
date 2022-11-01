@@ -38,6 +38,8 @@ export const typeDefs = gql`
         price: Int!
         numOfGuests: Int!
         reviews: [Review!]!
+        numReviews: Int!
+        rating: Float!
     }
 
     type Listings {

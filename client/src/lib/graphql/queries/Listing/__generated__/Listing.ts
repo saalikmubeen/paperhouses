@@ -70,6 +70,8 @@ export interface Listing_listing {
   price: number;
   numOfGuests: number;
   reviews: Listing_listing_reviews[];
+  numReviews: number;
+  rating: number;
 }
 
 export interface Listing {

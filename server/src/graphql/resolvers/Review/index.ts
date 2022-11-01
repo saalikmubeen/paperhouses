@@ -49,12 +49,24 @@ export const reviewResolvers: IResolvers = {
                     author: viewer._id,
                 };
 
+                const updatedTotalReviews = [...listing.reviews, review]
+
+                const numReviews = updatedTotalReviews.length;
+
+                const avgRating =
+                    updatedTotalReviews.reduce(
+                        (acc, next) => acc + next.rating,
+                        0
+                    ) / numReviews;
+
                 await db.listings.updateOne(
                     {
                         _id: listing._id,
                     },
                     {
                         $push: { reviews: review },
+                        numReviews: numReviews,
+                        rating: avgRating
                     }
                 );
 

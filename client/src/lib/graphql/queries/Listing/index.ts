@@ -44,6 +44,8 @@ export const LISTING = gql`
                     contact
                 }
             }
+            numReviews
+            rating
         }
     }
 `;
