@@ -1,8 +1,8 @@
 require("dotenv").config();
 
 import { ObjectId } from "mongodb";
-import { connectDatabase } from "../src/database";
-import { Listing, ListingType, User } from "../src/lib/types";
+import { connectDatabase } from "../database";
+import { Listing, ListingType, User } from "../lib/types";
 
 // Covers six cities around the world: Toronto, Dubai, Los Angeles, London, San Francisco, Cancun
 const listings: Listing[] = [
