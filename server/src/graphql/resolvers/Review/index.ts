@@ -37,8 +37,8 @@ export const reviewResolvers: IResolvers = {
                     throw new Error("You have already reviewed this listing!");
                 }
 
-                if (input.rating < 1 || input.rating > 5) {
-                    throw new Error("Provide a rating between 1 and 5!");
+                if (input.rating < 0 || input.rating > 5) {
+                    throw new Error("Provide a rating between 0 and 5!");
                 }
 
                 const review: Review = {
@@ -64,15 +64,17 @@ export const reviewResolvers: IResolvers = {
                         _id: listing._id,
                     },
                     {
+                        $set: {
+                            numReviews: numReviews,
+                            rating: avgRating,
+                        },
                         $push: { reviews: review },
-                        numReviews: numReviews,
-                        rating: avgRating
                     }
                 );
 
                 return review;
             } catch (error) {
-                throw new Error(`Failed to query the chat: ${error}`);
+                throw new Error(`${error}`);
             }
         },
     },

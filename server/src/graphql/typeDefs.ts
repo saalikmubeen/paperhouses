@@ -84,7 +84,7 @@ export const typeDefs = gql`
 
     type Review {
         id: ID!
-        rating: Int!
+        rating: Float!
         comment: String
         createdAt: String!
         author: User!
@@ -135,7 +135,7 @@ export const typeDefs = gql`
 
     input CreateReviewInput {
         listingId: String!
-        rating: Int!
+        rating: Float!
         comment: String
     }
 

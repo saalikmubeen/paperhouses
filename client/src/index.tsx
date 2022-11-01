@@ -19,10 +19,11 @@ import "./styles/index.css";
 import { App } from './App';
 
 const httpLink = createHttpLink({
-    uri: "http://localhost:5000/api",
+    uri: "http://localhost:9000/api",
+    credentials: "include",
 });
 
-const wsUrl = "ws://localhost:5000/api";
+const wsUrl = "ws://localhost:9000/api";
 
 const wsLink = new WebSocketLink(
     new SubscriptionClient(wsUrl, {

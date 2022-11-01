@@ -3,12 +3,15 @@ require("dotenv").config();
 import http from "http";
 import express, { Application } from "express";
 import { ApolloServer } from "apollo-server-express";
+import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
+import compression from "compression";
+import cors from "cors";
 import { connectDatabase } from "./database";
 import { typeDefs, resolvers } from "./graphql";
 import { pubSub } from "./lib/pubSub";
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 9000;
 
 const mount = async (app: Application) => {
     const db = await connectDatabase();
@@ -20,11 +23,14 @@ const mount = async (app: Application) => {
         console.log(`Index created: ${result}`);
     }
 
+    app.use(bodyParser.json({ limit: "2mb" }));
     app.use(cookieParser(process.env.SECRET));
+    app.use(compression());
 
     const apolloServer = new ApolloServer({
         typeDefs,
         resolvers,
+        
         subscriptions: {
             path: "/api",
             onConnect: (connectionParams, webSocket, context) => {
@@ -45,9 +51,10 @@ const mount = async (app: Application) => {
 
             return { db, req, res, pubSub: pubSub, connection };
         },
+        
     });
 
-    apolloServer.applyMiddleware({ app, path: "/api" });
+    apolloServer.applyMiddleware({ app, path: "/api", cors : { origin: "http://localhost:3000", credentials: true } });
 
     const httpServer = http.createServer(app);
     apolloServer.installSubscriptionHandlers(httpServer);
