@@ -116,6 +116,10 @@ export const listingResolvers: IResolvers = {
                     cursor = cursor.sort({ price: -1 });
                 }
 
+                if (filter && filter === ListingsFilter.HIGHEST_RATED) {
+                    cursor = cursor.sort({ rating: -1 });
+                }
+
                 cursor = cursor.skip(page > 0 ? (page - 1) * limit : 0);
                 cursor = cursor.limit(limit);
 

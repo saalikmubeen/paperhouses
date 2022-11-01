@@ -22,6 +22,7 @@ export const typeDefs = gql`
     enum ListingsFilter {
         PRICE_LOW_TO_HIGH
         PRICE_HIGH_TO_LOW
+        HIGHEST_RATED
     }
 
     type Listing {

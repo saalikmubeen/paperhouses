@@ -57,8 +57,8 @@ export const chatResolvers: IResolvers = {
                 throw new Error(`Failed to query the chat: ${error}`);
             }
         },
+        
     },
-
 
     Chat: {
         id: (chat: Chat): string => {
