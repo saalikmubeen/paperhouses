@@ -17,6 +17,7 @@ const { Search } = Input;
 
 export const AppHeader = ({ viewer, setViewer }: Props) => {
   const [search, setSearch] = useState("");
+ 
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -70,6 +71,7 @@ export const AppHeader = ({ viewer, setViewer }: Props) => {
           <div className="app-header__menu-section">
               <MenuItems viewer={viewer} setViewer={setViewer} />
           </div>
+
       </Header>
   );
 };

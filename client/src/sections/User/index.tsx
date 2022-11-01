@@ -54,6 +54,7 @@ export const User = ({
   };
 
 
+
   const stripeError = new URL(window.location.href).searchParams.get(
       "stripe_error"
   );
@@ -84,6 +85,7 @@ export const User = ({
 
   const userListings = user ? user.listings : null;
   const userBookings = user ? user.bookings : null;
+  const userChats = user ? user.chats: null
 
   const userProfileElement = user ? (
     <UserProfile user={user} viewerIsUser={viewerIsUser} viewer={viewer} setViewer={setViewer} handleUserRefetch={handleUserRefetch}/>
@@ -99,7 +101,7 @@ export const User = ({
   ) : null;
 
   // userBookings will be null only when the currently logged in user is not same as the user profile being viewed 
-  const userBookingsElement = UserBookings ? (
+  const userBookingsElement = userBookings ? (
     <UserBookings
       userBookings={userBookings}
       bookingsPage={bookingsPage}
@@ -112,7 +114,9 @@ export const User = ({
       <Content className="user">
           {stripeErrorBanner}
           <Row gutter={12} justify="space-between">
-              <Col xs={24}>{userProfileElement}</Col>
+              <Col xs={24}>
+                {userProfileElement}
+              </Col>
               <Col xs={24}>
                   {userListingsElement}
                   {userBookingsElement}

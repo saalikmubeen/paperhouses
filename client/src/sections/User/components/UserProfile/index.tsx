@@ -6,6 +6,7 @@ import { DISCONNECT_STRIPE } from "../../../../lib/graphql/mutations";
 import { DisconnectStripe as DisconnectStripeData } from "../../../../lib/graphql/mutations/DisconnectStripe/__generated__/DisconnectStripe";
 import { displayErrorMessage, displaySuccessNotification, formatListingPrice, stripeAuthUrl } from "../../../../lib/utils";
 import { Viewer } from "../../../../lib/types";
+import { UserChats } from "../UserChats";
 
 interface Props {
     user: UserData["user"];
@@ -98,6 +99,7 @@ export const UserProfile = ({ user, viewerIsUser, viewer, setViewer, handleUserR
               </a>{" "}
               to help transfer your earnings in a secure and truster manner.
           </Paragraph>
+
       </>
   );
 
@@ -107,6 +109,7 @@ export const UserProfile = ({ user, viewerIsUser, viewer, setViewer, handleUserR
           <div className="user-profile__details">
               <Title level={4}>Additional Details</Title>
               {additionalDetails}
+              <UserChats viewer={viewer} chats={user.chats} />
           </div>
       </>
   ) : null;

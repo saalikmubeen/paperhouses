@@ -15,6 +15,8 @@ export interface User_user_bookings_result_listing {
   address: string;
   price: number;
   numOfGuests: number;
+  numReviews: number;
+  rating: number;
 }
 
 export interface User_user_bookings_result {
@@ -39,6 +41,8 @@ export interface User_user_listings_result {
   address: string;
   price: number;
   numOfGuests: number;
+  numReviews: number;
+  rating: number;
 }
 
 export interface User_user_listings {

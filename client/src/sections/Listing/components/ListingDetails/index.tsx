@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Avatar, Divider, Tag, Typography } from "antd";
+import { Avatar, Divider, Rate, Tag, Typography } from "antd";
 import {
     EnvironmentOutlined
 } from "@ant-design/icons";
@@ -15,7 +15,7 @@ interface Props {
 const { Paragraph, Title } = Typography;
 
 export const ListingDetails = ({ listing }: Props) => {
-  const { title, description, image, type, address, city, numOfGuests, host } = listing;
+  const { title, description, image, type, address, city, numOfGuests, host, rating, numReviews } = listing;
 
   return (
       <div className="listing-details">
@@ -40,6 +40,8 @@ export const ListingDetails = ({ listing }: Props) => {
               <Title level={3} className="listing-details__title">
                   {title}
               </Title>
+              <Rate disabled defaultValue={rating} />{" "}
+              <Title level={5} style={{ display: "inline" }}>({numReviews} reviews)</Title>
           </div>
 
           <Divider />

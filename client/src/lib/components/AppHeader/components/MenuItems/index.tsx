@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { Avatar, Button, Menu } from "antd";
@@ -16,6 +16,7 @@ interface Props {
 const { Item, SubMenu } = Menu;
 
 export const MenuItems = ({ viewer, setViewer }: Props) => {
+
   const [logOut] = useMutation<LogOutData>(LOG_OUT, {
     onCompleted: data => {
       if (data && data.logOut) {
@@ -34,8 +35,6 @@ export const MenuItems = ({ viewer, setViewer }: Props) => {
   const handleLogOut = () => {
     logOut();
   };
-
-  console.log(viewer)
 
   const subMenuLogin =
       viewer.id && viewer.avatar ? (
@@ -62,6 +61,7 @@ export const MenuItems = ({ viewer, setViewer }: Props) => {
                       Log out
                   </div>
               </Item>
+
           </SubMenu>
       ) : (
           <Item>
@@ -72,19 +72,21 @@ export const MenuItems = ({ viewer, setViewer }: Props) => {
       );
 
   return (
-      <Menu mode="horizontal" selectable={false} className="menu">
-          <Item key="/host">
-              <Link to="/host">
-                  <Icon
-                      component={
-                          HomeOutlined as React.ForwardRefExoticComponent<any>
-                      }
-                      style={{marginRight: "6px"}}
-                  />
-                  Host
-              </Link>
-          </Item>
-          {subMenuLogin}
-      </Menu>
+      <>
+          <Menu mode="horizontal" selectable={false} className="menu">
+              <Item key="/host">
+                  <Link to="/host">
+                      <Icon
+                          component={
+                              HomeOutlined as React.ForwardRefExoticComponent<any>
+                          }
+                          style={{ marginRight: "6px" }}
+                      />
+                      Host
+                  </Link>
+              </Item>
+              {subMenuLogin}
+          </Menu>
+      </>
   );
 };

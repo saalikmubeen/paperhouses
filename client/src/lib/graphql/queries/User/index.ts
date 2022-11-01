@@ -25,6 +25,8 @@ export const USER = gql`
                         address
                         price
                         numOfGuests
+                        numReviews
+                        rating
                     }
                     checkIn
                     checkOut
@@ -39,6 +41,8 @@ export const USER = gql`
                     address
                     price
                     numOfGuests
+                    numReviews
+                    rating
                 }
             }
             chats {

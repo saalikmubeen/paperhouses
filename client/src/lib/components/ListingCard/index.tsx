@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Card, Typography } from "antd";
+import { Card, Rate, Typography } from "antd";
 import Icon, {
     UserOutlined,
 } from "@ant-design/icons";
@@ -14,13 +14,14 @@ interface Props {
     address: string;
     price: number;
     numOfGuests: number;
+    rating: number;
   };
 }
 
 const { Text, Title } = Typography;
 
 export const ListingCard = ({ listing }: Props) => {
-  const { id, title, image, address, price, numOfGuests } = listing;
+  const { id, title, image, address, price, numOfGuests, rating } = listing;
 
   return (
       <Link to={`/listing/${id}`}>
@@ -46,14 +47,19 @@ export const ListingCard = ({ listing }: Props) => {
                           {address}
                       </Text>
                   </div>
-                  <div className="listing-card__dimensions listing-card__dimensions--guests">
-                      <Icon
-                          component={
-                              UserOutlined as React.ForwardRefExoticComponent<any>
-                          }
-                          style={{ color: iconColor }}
-                      />
-                      <Text>{numOfGuests} guests</Text>
+
+                  <div style={{display: "flex", alignItems: "center", justifyContent: "space-between"}}>
+                      <Rate disabled defaultValue={rating} />
+
+                      <div className="listing-card__dimensions listing-card__dimensions--guests">
+                          <Icon
+                              component={
+                                  UserOutlined as React.ForwardRefExoticComponent<any>
+                              }
+                              style={{ color: iconColor }}
+                          />
+                          <Text>{numOfGuests} guests</Text>
+                      </div>
                   </div>
               </div>
           </Card>

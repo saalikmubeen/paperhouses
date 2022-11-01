@@ -927,7 +927,7 @@
               "name": null,
               "ofType": {
                 "kind": "SCALAR",
-                "name": "Int",
+                "name": "Float",
                 "ofType": null
               }
             },
@@ -1223,6 +1223,12 @@
           },
           {
             "name": "PRICE_HIGH_TO_LOW",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "HIGHEST_RATED",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null

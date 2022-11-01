@@ -16,8 +16,8 @@ import {
     UpdateListing,
     CreateBookingModal,
     ListingCreateBooking,
+    CreateReview
 } from "./components";
-import { CreateReview } from "./components/CreateReview";
 
 type Params = Record<"id", string>;
 
