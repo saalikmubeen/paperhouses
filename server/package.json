@@ -43,9 +43,9 @@
     },
     "scripts": {
         "dev": "nodemon src/index.ts",
-        "start": "ts-node src/index.ts",
+        "start": "node ./build/index.js",
         "seed": "ts-node mock/seed.ts",
         "clear": "ts-node mock/clear.ts",
-        "build": "tsc -p ./"
+        "build": "tsc"
     }
 }
