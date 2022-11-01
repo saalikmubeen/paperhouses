@@ -5,6 +5,7 @@
         "node": "16.14.0"
     },
     "dependencies": {
+        "@types/bson": "^4.2.0",
         "@types/cookie-parser": "^1.4.2",
         "@types/stripe": "^7.13.9",
         "apollo-server-express": "^2.6.4",
@@ -35,6 +36,7 @@
         "@types/node-geocoder": "^3.24.5",
         "@typescript-eslint/eslint-plugin": "^1.11.0",
         "@typescript-eslint/parser": "^1.11.0",
+        "bson": "^4.7.0",
         "dotenv": "^8.0.0",
         "eslint": "^6.0.1",
         "nodemon": "^1.19.1",
