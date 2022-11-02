@@ -7,14 +7,16 @@ import {
 import { Listing as ListingData } from "../../../../lib/graphql/queries/Listing/__generated__/Listing";
 import { iconColor } from "../../../../lib/utils";
 import  { ShowLocation } from "../../../../lib/components/Map";
+import { Viewer } from "../../../../lib/types";
 
 interface Props {
   listing: ListingData["listing"];
+  viewer: Viewer
 }
 
 const { Paragraph, Title } = Typography;
 
-export const ListingDetails = ({ listing }: Props) => {
+export const ListingDetails = ({ listing, viewer }: Props) => {
   const { title, description, image, type, address, city, numOfGuests, host, rating, numReviews } = listing;
 
   return (
@@ -56,7 +58,7 @@ export const ListingDetails = ({ listing }: Props) => {
           </div>
 
           <div>
-              <Link to={`/chat/${host.id}`}>
+              <Link to={(viewer.id && viewer.token) ? `/chat/${host.id}` : "/login"}>
                   <Title level={5}>
                       <Tag color={iconColor}>Message</Tag> {host.name} to know
                       more.
@@ -77,7 +79,7 @@ export const ListingDetails = ({ listing }: Props) => {
               </Paragraph>
           </div>
 
-          {/* <ShowLocation address={address}/> */}
+          <ShowLocation address={address}/>
       </div>
   );
 };

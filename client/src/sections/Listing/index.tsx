@@ -81,7 +81,7 @@ export const Listing = ({ viewer }: Props) => {
     const listingBookings = listing ? listing.bookings : null;
 
     const listingDetailsElement = listing ? (
-        <ListingDetails listing={listing} />
+        <ListingDetails listing={listing} viewer={viewer} />
     ) : null;
 
     const listingBookingsElement = listingBookings ? (

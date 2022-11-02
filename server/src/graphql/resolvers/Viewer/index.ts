@@ -12,6 +12,7 @@ const cookieOptions = {
     sameSite: false,
     signed: true,
     secure: process.env.NODE_ENV === "development" ? false : true,
+    domain: "paperhouses.netlify.app",
 };
 
 const logInViaGoogle = async (

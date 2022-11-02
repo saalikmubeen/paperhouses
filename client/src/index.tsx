@@ -18,8 +18,11 @@ import reportWebVitals from './reportWebVitals';
 import "./styles/index.css";
 import { App } from './App';
 
-const uri    =   "https://paperhouses-server.onrender.com/api";  // "http://localhost:9000/api"
-const wsUrl  =   "ws://paperhouses-server.onrender.com/api";     // "ws://localhost:9000/api"; 
+const uri    =   "https://paperhouses-server.onrender.com/api";
+const wsUrl  =   "wss://paperhouses-server.onrender.com/api";
+
+// const uri    =   "http://localhost:9000/api"
+// const wsUrl  =   "ws://localhost:9000/api"; 
 
 const httpLink = createHttpLink({
     uri: uri,

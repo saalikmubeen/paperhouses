@@ -38,7 +38,6 @@
         "codegen:schema": "npx apollo client:download-schema --endpoint=http://localhost:9000/api",
         "codegen:generate": "npx apollo client:codegen --localSchemaFile=schema.json --includes=src/**/*.ts --globalTypesFile=./src/lib/graphql/globalTypes.ts --target=typescript"
     },
-    
     "eslintConfig": {
         "extends": [
             "react-app",
@@ -60,6 +59,7 @@
     "devDependencies": {
         "@types/mapbox__mapbox-gl-geocoder": "^4.7.3",
         "@types/mapbox__mapbox-sdk": "^0.13.4",
-        "@types/mapbox-gl": "^2.7.6"
+        "@types/mapbox-gl": "^2.7.6",
+        "worker-loader": "^3.0.8"
     }
 }
