@@ -44,8 +44,6 @@ const mount = async (app: Application) => {
             },
         },
         context: ({ req, res, connection }) => {
-            const token = req.get("X-CSRF-TOKEN");
-            console.log("X-CSRF-TOKEN", token);
 
             if(connection) {
                 // the object returned from onConnect will be connection.context

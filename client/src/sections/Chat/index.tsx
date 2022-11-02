@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Layout, Spin } from "antd";
-import { useQuery } from "@apollo/client";
+import { useQuery, useSubscription } from "@apollo/client";
 import { useParams } from "react-router-dom";
 import { SEND_MESSAGE } from "../../lib/graphql/subscriptions/SendMessage";
 import { Viewer } from "../../lib/types";
@@ -10,13 +10,12 @@ import {
     ChatVariables,
 } from "../../lib/graphql/queries/Chat/__generated__/Chat";
 import {
-    AppHeaderSkeleton,
     ErrorBanner,
     PageSkeleton,
 } from "../../lib/components";
 import { Messages } from "./components/Messages";
 import { NewMessageInput } from "./components/NewMessageInput";
-import { SendMessage as SendMessageData } from "../../lib/graphql/subscriptions/SendMessage/__generated__/SendMessage";
+import { SendMessage as SendMessageData, SendMessageVariables } from "../../lib/graphql/subscriptions/SendMessage/__generated__/SendMessage";
 import { useScrollToTop } from "../../lib/hooks/useScrollToTop";
 
 const { Content } = Layout;
@@ -53,6 +52,8 @@ export const Chat = (props: Props) => {
                         subscriptionData.data as unknown as SendMessageData
                     ).sendMessage;
 
+                    console.log(newMessage)
+
                     const updatedChat =  Object.assign({}, prev, {
                         chat: {
                             ...prev.chat,
@@ -70,7 +71,6 @@ export const Chat = (props: Props) => {
     if (loading) {
         return (
             <Layout className="app-skeleton">
-                <AppHeaderSkeleton />
                 <div className="app-skeleton__spin-section">
                     <Spin size="large" tip="Loading your chat...!" />
                 </div>
@@ -82,7 +82,7 @@ export const Chat = (props: Props) => {
         console.log(error)
         return (
             <Content className="user">
-                <ErrorBanner description="We've encountered an error. Please try again soon." />
+                <ErrorBanner description="Unable to fetch chat. Please try again soon." />
                 <PageSkeleton />
             </Content>
         );
@@ -97,7 +97,6 @@ export const Chat = (props: Props) => {
     const recipient = chat.participants.find((participant) => {
         return participant.id !== props.viewer.id;
     });
-
 
     return (
         <div className="chat-container">

@@ -44,6 +44,7 @@ export const Messages = ({ messages, viewer, recipient } : Props) => {
                     color: "#797a7a",
                     marginTop: "15px",
                     fontSize: "15px",
+                    padding: "0 10px"
                 }}
             >
                 This is the beginning of your conversation with{" "}

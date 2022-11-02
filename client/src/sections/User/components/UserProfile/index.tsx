@@ -89,7 +89,7 @@ export const UserProfile = ({ user, viewerIsUser, viewer, setViewer, handleUserR
               Connect with Stripe
           </Button>
           <Paragraph type="secondary">
-              TinyHouse uses{" "}
+              PaperHouses uses{" "}
               <a
                   href="https://stripe.com/en-US/connect"
                   target="_blank"

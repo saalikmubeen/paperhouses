@@ -88,7 +88,6 @@ export const messageResolvers: IResolvers = {
                     process.env.SECRET!
                 );
 
-                // console.log("Viewer Id:", viewerId);
                 if (!viewerId) {
                     throw new Error("viewer cannot be found | unauthorized");
                 }

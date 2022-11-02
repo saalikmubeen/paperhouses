@@ -7,8 +7,6 @@ import { ConnectStripeArgs, LogInArgs } from "./types";
 import { authorize } from "../../../lib/utils";
 import { Stripe } from "../../../lib/api";
 
-console.log(process.env.NODE_ENV);
-
 const cookieOptions = {
     httpOnly: true,
     sameSite: "none",
