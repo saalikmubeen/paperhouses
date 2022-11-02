@@ -18,6 +18,7 @@ import { Viewer } from "../../lib/types";
 
 // Image Assets
 import googleLogo from "./assets/google_logo.jpg";
+import { useScrollToTop } from "../../lib/hooks/useScrollToTop";
 
 interface Props {
     setViewer: (viewer: Viewer) => void;
@@ -60,6 +61,8 @@ export const Login = ({ setViewer }: Props) => {
             );
         }
     };
+
+    useScrollToTop();
 
     useEffect(() => {
         const code = new URL(window.location.href).searchParams.get("code");

@@ -18,6 +18,7 @@ import {
     ListingCreateBooking,
     CreateReview
 } from "./components";
+import { useScrollToTop } from "../../lib/hooks/useScrollToTop";
 
 type Params = Record<"id", string>;
 
@@ -56,6 +57,8 @@ export const Listing = ({ viewer }: Props) => {
         setCheckInDate(null);
         setCheckOutDate(null);
     };
+
+    useScrollToTop();
 
     if (loading) {
         return (

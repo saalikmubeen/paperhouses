@@ -30,6 +30,7 @@ import {
 } from "../../lib/utils";
 import { Viewer } from "../../lib/types";
 import { SelectLocation } from "../../lib/components/Map";
+import { useScrollToTop } from "../../lib/hooks/useScrollToTop";
 
 interface Props {
     viewer: Viewer;
@@ -56,8 +57,6 @@ export const Host = ({ viewer }: Props) => {
     const [imageBase64Value, setImageBase64Value] = useState<string | null>(
         null
     );
-
-
 
     const setFullAddress = (fullAddress: {address: string, city: string, state: string, postalCode: string}) => {
         setAddress(fullAddress.address);
@@ -120,6 +119,8 @@ export const Host = ({ viewer }: Props) => {
             },
         });
     };
+
+    useScrollToTop();
 
      React.useEffect(() => {
          form.setFieldsValue({

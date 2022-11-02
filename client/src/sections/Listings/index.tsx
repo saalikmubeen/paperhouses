@@ -10,6 +10,7 @@ import {
 } from "../../lib/graphql/queries/Listings/__generated__/Listings";
 import { ListingsFilter } from "../../lib/graphql/globalTypes";
 import { ListingsFilters, ListingsPagination, ListingsSkeleton } from "./components";
+import { useScrollToTop } from "../../lib/hooks/useScrollToTop";
 
 type Params = Record<"location", string>;
 
@@ -36,6 +37,8 @@ export const Listings = () => {
           },
       }
   );
+
+  useScrollToTop();
 
 
   useEffect(() => {

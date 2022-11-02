@@ -18,12 +18,14 @@ import reportWebVitals from './reportWebVitals';
 import "./styles/index.css";
 import { App } from './App';
 
+const uri    =   "https://paperhouses-server.onrender.com/api";  // "http://localhost:9000/api"
+const wsUrl  =   "ws://paperhouses-server.onrender.com/api";     // "ws://localhost:9000/api"; 
+
 const httpLink = createHttpLink({
-    uri: "http://localhost:9000/api",
+    uri: uri,
     credentials: "include",
 });
 
-const wsUrl = "ws://localhost:9000/api";
 
 const wsLink = new WebSocketLink(
     new SubscriptionClient(wsUrl, {
@@ -78,13 +80,13 @@ const root = ReactDOM.createRoot(
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY!);
 
 root.render(
-    <React.StrictMode>
+    // <React.StrictMode>
         <Elements stripe={stripePromise}>
             <ApolloProvider client={client}>
                 <App />
             </ApolloProvider>
         </Elements>
-    </React.StrictMode>
+    // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

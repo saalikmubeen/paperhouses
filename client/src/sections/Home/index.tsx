@@ -14,6 +14,7 @@ import { HomeHero, HomeListings, HomeListingsSkeleton } from "./components";
 import mapBackground from "./assets/map-background.jpg";
 import sanFransiscoImage from "./assets/san-fransisco.jpg";
 import cancunImage from "./assets/cancun.jpg";
+import { useScrollToTop } from "../../lib/hooks/useScrollToTop";
 
 const { Content } = Layout;
 const { Paragraph, Title } = Typography;
@@ -42,6 +43,8 @@ export const Home = () => {
       displayErrorMessage("Please enter a valid search!");
     }
   };
+
+  useScrollToTop();
 
   const renderListingsSection = () => {
     if (loading) {

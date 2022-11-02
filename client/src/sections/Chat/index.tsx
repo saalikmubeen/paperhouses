@@ -17,6 +17,7 @@ import {
 import { Messages } from "./components/Messages";
 import { NewMessageInput } from "./components/NewMessageInput";
 import { SendMessage as SendMessageData } from "../../lib/graphql/subscriptions/SendMessage/__generated__/SendMessage";
+import { useScrollToTop } from "../../lib/hooks/useScrollToTop";
 
 const { Content } = Layout;
 
@@ -37,6 +38,8 @@ export const Chat = (props: Props) => {
             recipient: params.recipientId
         }
     });
+
+    useScrollToTop();
 
     useEffect(() => {
 

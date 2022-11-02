@@ -13,6 +13,7 @@ import { UserBookings, UserListings, UserProfile } from "./components";
 import { LISTING_BOOKED } from "../../lib/graphql/subscriptions";
 import { ListingBooked as ListingBookedData, ListingBookedVariables } from "../../lib/graphql/subscriptions/ListingBooked/__generated__/ListingBooked";
 import { displaySuccessNotification } from "../../lib/utils";
+import { useScrollToTop } from "../../lib/hooks/useScrollToTop";
 
 interface Props {
     viewer: Viewer;
@@ -53,7 +54,7 @@ export const User = ({
       await refetch();
   };
 
-
+  useScrollToTop();
 
   const stripeError = new URL(window.location.href).searchParams.get(
       "stripe_error"

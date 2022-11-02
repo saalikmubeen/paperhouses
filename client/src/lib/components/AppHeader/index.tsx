@@ -3,7 +3,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Layout, Input } from "antd";
 import { MenuItems } from "./components";
 
-import logo from "./assets/tinyhouse-logo.png";
+import logo from "./assets/paperhouses-logo.png";
 import { Viewer } from "../../types";
 import { displayErrorMessage } from "../../utils";
 
