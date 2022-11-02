@@ -12,13 +12,10 @@ const url =
         : "mongodb://localhost/paper-houses";
 
 export const connectDatabase = async (): Promise<Database> => {
-    const client = await MongoClient.connect(
-        "mongodb://localhost/paper-houses",
-        {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        }
-    );
+    const client = await MongoClient.connect(url, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    });
     const db = client.db("main");
 
     return {
