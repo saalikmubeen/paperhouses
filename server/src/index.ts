@@ -9,9 +9,10 @@ import compression from "compression";
 import { connectDatabase } from "./database";
 import { typeDefs, resolvers } from "./graphql";
 import { pubSub } from "./lib/pubSub";
+import { Console } from "console";
 
 const PORT = process.env.PORT || 9000;
-const FRONTEND_URL = process.env.PUBLIC_URL || "http://localhost:3000"; 
+const FRONTEND_URL = process.env.PUBLIC_URL; 
 
 const mount = async (app: Application) => {
     const db = await connectDatabase();
@@ -43,6 +44,8 @@ const mount = async (app: Application) => {
             },
         },
         context: ({ req, res, connection }) => {
+            const token = req.get("X-CSRF-TOKEN");
+            console.log("X-CSRF-TOKEN", token);
 
             if(connection) {
                 // the object returned from onConnect will be connection.context

@@ -7,12 +7,13 @@ import { ConnectStripeArgs, LogInArgs } from "./types";
 import { authorize } from "../../../lib/utils";
 import { Stripe } from "../../../lib/api";
 
+console.log(process.env.NODE_ENV);
+
 const cookieOptions = {
     httpOnly: true,
     sameSite: "none",
     signed: true,
-    secure: process.env.NODE_ENV === "development" ? false : true,
-    domain: ".netlify.app",
+    secure: process.env.NODE_ENV === "production",
 };
 
 const logInViaGoogle = async (
