@@ -9,10 +9,10 @@ import { Stripe } from "../../../lib/api";
 
 const cookieOptions = {
     httpOnly: true,
-    sameSite: false,
+    sameSite: "none",
     signed: true,
     secure: process.env.NODE_ENV === "development" ? false : true,
-    domain: "paperhouses.netlify.app",
+    domain: ".netlify.app",
 };
 
 const logInViaGoogle = async (
