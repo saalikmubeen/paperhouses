@@ -1,0 +1,59 @@
+version: "3.9"
+services:
+
+    # Backend AI
+    api:
+        container_name: api
+        build:
+            context: ./server
+            dockerfile: Dockerfile
+        restart: always # "no", always, on-failure, unless-stopped
+        working_dir: /app
+        volumes:
+            - ./server:/app
+            - /app/node_modules
+        ports:
+            - "9000:9000"
+        environment:
+            MONGO_URI_DEV: mongodb://root:exapmle@mongo-db:27017/paperhouses?authSource=admin
+            NODE_ENV: development
+            PUBLIC_URL: http://localhost:3000
+            SECRET: my_super_secret_for_cookies
+            GOOGLE_CLIENT_ID: <Replace with yours>
+            GOOGLE_CLIENT_SECRET: <Replace with yours>
+            STRIPE_CLIENT_ID: <Replace with yours>
+            STRIPE_SECRET_KEY: <Replace with yours>
+            CLOUDINARY_NAME: <Replace with yours>
+            CLOUDINARY_API_KEY: <Replace with yours>
+            CLOUDINARY_API_SECRET: <Replace with yours>
+            MAPBOX_API_KEY: <Replace with yours>
+        depends_on:
+            - mongo-db
+
+    # MongoDB database
+    mongo-db:
+        container_name: mongo-db
+        image: "mongo"
+        restart: always
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: root
+            MONGO_INITDB_ROOT_PASSWORD: exapmle
+        ports:
+            - 27017:27017
+
+
+    # client
+    client:
+        container_name: client
+        build:
+            context: ./client
+            dockerfile: Dockerfile
+        volumes:
+            - ./client:/app
+            - /app/node_modules
+        ports:
+            - "3000:3000"
+        environment:
+            REACT_APP_STRIPE_PUBLISHABLE_KEY: <Replace with yours>
+            REACT_APP_STRIPE_CLIENT_ID: <Replace with yours>
+            REACT_APP_MAPBOX_API_KEY: <Replace with yours>
