@@ -138,51 +138,55 @@ export const listingResolvers: IResolvers = {
             { input }: HostListingArgs,
             { db, req }: { db: Database; req: Request }
         ): Promise<Listing> => {
-            verifyHostListingInput(input);
+            
+            try {
+                verifyHostListingInput(input);
 
-            let viewer = await authorize(db, req);
-            if (!viewer) {
-                throw new Error("viewer cannot be found");
+                let viewer = await authorize(db, req);
+                if (!viewer) {
+                    throw new Error("viewer cannot be found");
+                }
+
+                const res = await GeoCoder.geocode(input.address);
+
+                const { country, city, neighbourhood, state, zipcode } =
+                    res[0] as any;
+
+                if (!country || !state || !city) {
+                    throw new Error("invalid address input");
+                }
+
+                const admin = `${neighbourhood} ${state} ${zipcode}`;
+
+                const imageUrl = await Cloudinary.upload(input.image);
+
+                const insertResult = await db.listings.insertOne({
+                    _id: new ObjectId(),
+                    ...input,
+                    image: imageUrl,
+                    bookings: [],
+                    bookingsIndex: {},
+                    country,
+                    admin,
+                    city,
+                    host: viewer._id,
+                    reviews: [],
+                    numReviews: 0,
+                    rating: 0,
+                });
+
+                const insertedListing: Listing = insertResult.ops[0];
+
+                await db.users.updateOne(
+                    { _id: viewer._id },
+                    { $push: { listings: insertedListing._id } }
+                );
+
+                return insertedListing;
+            } catch(err) {
+                console.log(err)
+                throw new Error(err as any);
             }
-
-            const res = await GeoCoder.geocode(input.address);
-
-            console.log(res);
-
-            const { country, city, neighbourhood, state, zipcode } =
-                res[0] as any;
-
-            if (!country || !state || !city) {
-                throw new Error("invalid address input");
-            }
-
-            const admin = `${neighbourhood} ${state} ${zipcode}`;
-
-            const imageUrl = await Cloudinary.upload(input.image);
-
-            const insertResult = await db.listings.insertOne({
-                _id: new ObjectId(),
-                ...input,
-                image: imageUrl,
-                bookings: [],
-                bookingsIndex: {},
-                country,
-                admin,
-                city,
-                host: viewer._id,
-                reviews: [],
-                numReviews: 0,
-                rating: 0
-            });
-
-            const insertedListing: Listing = insertResult.ops[0];
-
-            await db.users.updateOne(
-                { _id: viewer._id },
-                { $push: { listings: insertedListing._id } }
-            );
-
-            return insertedListing;
         },
 
         updateListing: async (
@@ -190,51 +194,57 @@ export const listingResolvers: IResolvers = {
             { input, id }: UpdateListingArgs,
             { db, req }: { db: Database; req: Request }
         ): Promise<{ id: string }> => {
-            verifyHostListingInput({ ...input, image: "" });
+            
+            try {
+                verifyHostListingInput({ ...input, image: "" });
 
-            let viewer = await authorize(db, req);
-            if (!viewer) {
-                throw new Error("viewer cannot be found");
-            }
-
-            const listing = await db.listings.findOne({
-                _id: new ObjectId(id),
-            });
-            if (!listing) {
-                throw new Error("listing can't be found");
-            }
-
-            // If currently logged in user is viewing their own listing
-            if (listing.host !== viewer._id) {
-                throw new Error("Unauthorized!");
-            } else {
-                listing.authorized = true;
-            }
-
-            let imageUrl: string | null = null;
-
-            if (input.image) {
-                imageUrl = await Cloudinary.upload(input.image);
-            }
-
-            const updates = { ...input };
-
-            if (imageUrl) {
-                updates.image = imageUrl;
-            }
-
-            await db.listings.updateOne(
-                {
-                    _id: new ObjectId(id),
-                },
-                {
-                    $set: updates,
+                let viewer = await authorize(db, req);
+                if (!viewer) {
+                    throw new Error("viewer cannot be found");
                 }
-            );
 
-            return {
-                id: listing._id.toString(),
-            };
+                const listing = await db.listings.findOne({
+                    _id: new ObjectId(id),
+                });
+                if (!listing) {
+                    throw new Error("listing can't be found");
+                }
+
+                // If currently logged in user is viewing their own listing
+                if (listing.host !== viewer._id) {
+                    throw new Error("Unauthorized!");
+                } else {
+                    listing.authorized = true;
+                }
+
+                let imageUrl: string | null = null;
+
+                if (input.image) {
+                    imageUrl = await Cloudinary.upload(input.image);
+                }
+
+                const updates = { ...input };
+
+                if (imageUrl) {
+                    updates.image = imageUrl;
+                }
+
+                await db.listings.updateOne(
+                    {
+                        _id: new ObjectId(id),
+                    },
+                    {
+                        $set: updates,
+                    }
+                );
+
+                return {
+                    id: listing._id.toString(),
+                };
+            } catch (err) {
+                console.log(err);
+                throw new Error(err as any);
+            }
         },
     },
 

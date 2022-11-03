@@ -46,7 +46,7 @@ export const MenuItems = ({ viewer, setViewer }: Props) => {
 
     let items: MenuProps["items"] = [
         {
-            label: <Link to="/host">Host</Link>,
+            label: <Link to="/host">Become a Host</Link>,
             key: "/host",
             icon: (
                 <Icon

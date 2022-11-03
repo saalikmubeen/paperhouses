@@ -71,8 +71,9 @@ export const Home = () => {
               </Title>
               <Paragraph>
                   Rent out your property, house and apartment and earn money.
-                  Helping you make the best decisions in renting and choosing your last
-                  minute locations.
+                  Book Top Rated Rentals for Your Next Trip. Helping you make the
+                  best decisions in renting and choosing your last minute
+                  locations.
               </Paragraph>
               <Link
                   to="/listings/united%20states"
