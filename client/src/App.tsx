@@ -77,7 +77,7 @@ export const App = () => {
                     <Route path="/host" element={<Host viewer={viewer} />} />
                     <Route
                         path="/login"
-                        element={<Login setViewer={setViewer} />}
+                        element={<Login setViewer={setViewer} viewer={viewer} />}
                     />
                     <Route
                         path="/stripe"

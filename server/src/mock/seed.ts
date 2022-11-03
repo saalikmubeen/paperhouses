@@ -865,6 +865,19 @@ const seed = async () => {
             await db.users.insertOne(user);
         }
 
+        const indexExists = await db.listings.indexExists(
+            "country_1_city_1_admin_1"
+        );
+
+        if (!indexExists) {
+            const result = await db.listings.createIndex({
+                country: 1,
+                city: 1,
+                admin: 1,
+            });
+            console.log(`Index created: ${result}`);
+        }
+
         console.log("[seed] : success");
     } catch {
         throw new Error("failed to seed database");

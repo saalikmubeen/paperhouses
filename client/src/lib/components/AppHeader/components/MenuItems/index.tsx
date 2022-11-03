@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { Avatar, Button, Menu, } from "antd";
 import type { MenuProps } from "antd";
@@ -22,12 +22,15 @@ interface Props {
 }
 
 export const MenuItems = ({ viewer, setViewer }: Props) => {
+    const navigate = useNavigate();
+
     const [logOut] = useMutation<LogOutData>(LOG_OUT, {
         onCompleted: (data) => {
             if (data && data.logOut) {
                 setViewer(data.logOut);
                 sessionStorage.removeItem("token");
                 displaySuccessNotification("You've successfully logged out!");
+                navigate("/");
             }
         },
         onError: () => {

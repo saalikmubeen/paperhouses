@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useQuery } from "@apollo/client";
-import { Layout, Typography, Button, List, Avatar, Empty, Drawer } from "antd";
+import { Layout, Typography, Button, List, Avatar, Empty, Drawer, Divider } from "antd";
 import Icon, { CommentOutlined } from "@ant-design/icons";
 import { Viewer } from "../../../../lib/types";
 import { User } from "../../../../lib/graphql/queries/User/__generated__/User";
@@ -25,8 +25,6 @@ export const UserChats = ({ viewer, chats }: Props) => {
             recipient: chat.participants.find((participant) => participant.id !== viewer.id) 
         }
     })
-
-    console.log(chatList)
 
      const handleClose = () => {
          setOpen(false);

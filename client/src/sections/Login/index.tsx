@@ -22,12 +22,13 @@ import { useScrollToTop } from "../../lib/hooks/useScrollToTop";
 
 interface Props {
     setViewer: (viewer: Viewer) => void;
+    viewer: Viewer
 }
 
 const { Content } = Layout;
 const { Text, Title } = Typography;
 
-export const Login = ({ setViewer }: Props) => {
+export const Login = ({ setViewer, viewer }: Props) => {
 
     const client = useApolloClient();
     let navigate = useNavigate();
@@ -65,6 +66,12 @@ export const Login = ({ setViewer }: Props) => {
     useScrollToTop();
 
     useEffect(() => {
+
+        if(viewer.id) {
+            navigate(`/user/${viewer.id}`);
+            return
+        }
+
         const code = new URL(window.location.href).searchParams.get("code");
         if (code) {
             logInRef.current({
@@ -73,7 +80,11 @@ export const Login = ({ setViewer }: Props) => {
                 },
             });
         }
-    }, []);
+    }, [navigate, viewer.id]);
+
+    if(viewer.id) {
+        return <></>
+    }
 
     if (logInLoading) {
         return (

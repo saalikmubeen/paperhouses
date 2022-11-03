@@ -70,7 +70,8 @@ export const Home = () => {
                   Your guide for all things rental
               </Title>
               <Paragraph>
-                  Helping you make the best decisions in renting your last
+                  Rent out your property, house and apartment and earn money.
+                  Helping you make the best decisions in renting and choosing your last
                   minute locations.
               </Paragraph>
               <Link

@@ -9,7 +9,6 @@ import compression from "compression";
 import { connectDatabase } from "./database";
 import { typeDefs, resolvers } from "./graphql";
 import { pubSub } from "./lib/pubSub";
-import { Console } from "console";
 
 const PORT = process.env.PORT || 9000;
 const FRONTEND_URL = process.env.PUBLIC_URL; 
@@ -17,12 +16,12 @@ const FRONTEND_URL = process.env.PUBLIC_URL;
 const mount = async (app: Application) => {
     const db = await connectDatabase();
 
-    const indexExists = await db.listings.indexExists("country_1_city_1_admin_1")
+    // const indexExists = await db.listings.indexExists("country_1_city_1_admin_1")
 
-    if(!indexExists) {
-        const result = await db.listings.createIndex({ country: 1, city: 1, admin: 1  });
-        console.log(`Index created: ${result}`);
-    }
+    // if(!indexExists) {
+    //     const result = await db.listings.createIndex({ country: 1, city: 1, admin: 1  });
+    //     console.log(`Index created: ${result}`);
+    // }
 
     app.use(bodyParser.json({ limit: "2mb" }));
     app.use(cookieParser(process.env.SECRET));

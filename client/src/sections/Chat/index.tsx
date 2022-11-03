@@ -52,9 +52,7 @@ export const Chat = (props: Props) => {
                         subscriptionData.data as unknown as SendMessageData
                     ).sendMessage;
 
-                    console.log(newMessage)
-
-                    const updatedChat =  Object.assign({}, prev, {
+                    const updatedChat: ChatData = Object.assign({}, prev, {
                         chat: {
                             ...prev.chat,
                             messages: [...prev.chat.messages, newMessage],
@@ -70,11 +68,9 @@ export const Chat = (props: Props) => {
 
     if (loading) {
         return (
-            <Layout className="app-skeleton">
-                <div className="app-skeleton__spin-section">
-                    <Spin size="large" tip="Loading your chat...!" />
-                </div>
-            </Layout>
+            <Content className="log-in">
+                <Spin size="large" tip="Loading your chat...!" />
+            </Content>
         );
     }
 

@@ -11,10 +11,7 @@ import {
     Typography,
     Upload,
 } from "antd";
-import Icon, {
-   LoadingOutlined,
-   CloudUploadOutlined
-} from "@ant-design/icons";
+import Icon, { LoadingOutlined, CloudUploadOutlined } from "@ant-design/icons";
 
 import { UploadChangeParam } from "antd/lib/upload";
 import { HOST_LISTING } from "../../lib/graphql/mutations";
@@ -58,12 +55,17 @@ export const Host = ({ viewer }: Props) => {
         null
     );
 
-    const setFullAddress = (fullAddress: {address: string, city: string, state: string, postalCode: string}) => {
+    const setFullAddress = (fullAddress: {
+        address: string;
+        city: string;
+        state: string;
+        postalCode: string;
+    }) => {
         setAddress(fullAddress.address);
-        setCity(fullAddress.city)
-        setState(fullAddress.state)
-        setPostalCode(fullAddress.postalCode)
-    }
+        setCity(fullAddress.city);
+        setState(fullAddress.state);
+        setPostalCode(fullAddress.postalCode);
+    };
 
     const [hostListing, { loading, data }] = useMutation<
         HostListingData,
@@ -81,7 +83,6 @@ export const Host = ({ viewer }: Props) => {
             );
         },
     });
-
 
     const handleImageUpload = (info: UploadChangeParam) => {
         const { file } = info;
@@ -107,7 +108,6 @@ export const Host = ({ viewer }: Props) => {
             address: fullAddress,
             image: imageBase64Value,
             price: values.price * 100,
-
         };
         delete input.city;
         delete input.state;
@@ -122,16 +122,16 @@ export const Host = ({ viewer }: Props) => {
 
     useScrollToTop();
 
-     React.useEffect(() => {
-         form.setFieldsValue({
-             address,
-             city,
-             state,
-             postalCode
-         });
-     }, [form, address, city, state, postalCode]);
+    React.useEffect(() => {
+        form.setFieldsValue({
+            address,
+            city,
+            state,
+            postalCode,
+        });
+    }, [form, address, city, state, postalCode]);
 
-    if (!viewer.id || !viewer.hasWallet) {
+    if (!viewer.id) {
         return (
             <Content className="host-content">
                 <div className="host__form-header">
@@ -144,6 +144,24 @@ export const Host = ({ viewer }: Props) => {
                         and have connected with Stripe to host new listings. You
                         can sign in at the <Link to="/login">/login</Link> page
                         and connect with Stripe shortly after.
+                    </Text>
+                </div>
+            </Content>
+        );
+    }
+
+    if (viewer.id && !viewer.hasWallet) {
+        return (
+            <Content className="host-content">
+                <div className="host__form-header">
+                    <Title level={4} className="host__form-title">
+                        You'll have to be connected with Stripe to host a
+                        listing!
+                    </Title>
+                    <Text type="secondary">
+                        We only allow users who've have connected with Stripe to
+                        host new listings. You can connect with Stripe{" "}
+                        <Link to={`/user/${viewer.id}`}>here.</Link>
                     </Text>
                 </div>
             </Content>
@@ -163,9 +181,8 @@ export const Host = ({ viewer }: Props) => {
                 </div>
             </Content>
         );
-    };
+    }
 
-    console.log(address)
     return (
         <Content className="host-content">
             <Form layout="vertical" onFinish={handleHostListing} form={form}>
@@ -380,7 +397,7 @@ export const Host = ({ viewer }: Props) => {
 const beforeImageUpload = (file: File) => {
     const fileIsValidImage =
         file.type === "image/jpeg" || file.type === "image/png";
-    const fileIsValidSize = file.size / 1024 / 1024 <= 1;  // less than 1 MB
+    const fileIsValidSize = file.size / 1024 / 1024 <= 1; // less than 1 MB
 
     if (!fileIsValidImage) {
         displayErrorMessage(
@@ -406,7 +423,7 @@ const getBase64Value = (
     const reader = new FileReader();
     reader.readAsDataURL(img);
     reader.onload = () => {
-      console.log(reader.result)
+        console.log(reader.result);
         callback(reader.result as string);
     };
 };

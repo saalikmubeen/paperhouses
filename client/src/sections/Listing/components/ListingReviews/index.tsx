@@ -1,5 +1,6 @@
+import { WechatOutlined } from "@ant-design/icons";
 import { useMutation } from "@apollo/client";
-import { Avatar, Button, Comment, Form, Input, List, Rate } from "antd";
+import { Avatar, Button, Comment, Form, Input, List, Rate, Typography } from "antd";
 import moment from "moment";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
@@ -10,8 +11,10 @@ import {
 } from "../../../../lib/graphql/mutations/CreateReview/__generated__/CreateReview";
 import { Listing } from "../../../../lib/graphql/queries/Listing/__generated__/Listing";
 import { Viewer } from "../../../../lib/types";
-import { displayErrorMessage, displaySuccessNotification } from "../../../../lib/utils";
+import { displayErrorMessage, displaySuccessNotification, iconColor } from "../../../../lib/utils";
 const { TextArea } = Input;
+
+const { Title } = Typography;
 
 interface ReviewItem {
   author: string;
@@ -39,9 +42,13 @@ interface EditorProps {
 const CommentList = ({ reviews }: { reviews: ReviewItem[] }) => (
     <List
         dataSource={reviews}
-        header={`${reviews.length} ${
-            reviews.length > 1 ? "replies" : "reply"
-        }`}
+        header={
+            <Title level={4}>
+                <WechatOutlined />
+                <br />
+                ({reviews.length} {reviews.length > 1 ? "reviews" : "review"})
+            </Title>
+        }
         itemLayout="horizontal"
         renderItem={(props) => <Comment {...props} />}
     />
