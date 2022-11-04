@@ -15,7 +15,6 @@ import mapBackground from "./assets/map-background.jpg";
 import sanFransiscoImage from "./assets/san-fransisco.jpg";
 import cancunImage from "./assets/cancun.jpg";
 import { useScrollToTop } from "../../lib/hooks/useScrollToTop";
-import { MyWavyLink } from "../../lib/components";
 
 const { Content } = Layout;
 const { Paragraph, Title } = Typography;
@@ -76,11 +75,12 @@ export const Home = () => {
                   the best decisions in renting and choosing your last minute
                   locations.
               </Paragraph>
-              <MyWavyLink to="/listings/united%20states">
-                  <span className="ant-btn ant-btn-primary ant-btn-lg home__cta-section-button">
-                      Popular listings in the United States
-                  </span>
-              </MyWavyLink>
+              <Link
+                  to="/listings/united%20states"
+                  className="ant-btn ant-btn-primary ant-btn-lg home__cta-section-button"
+              >
+                  Popular listings in the United States
+              </Link>
           </div>
 
           {renderListingsSection()}
@@ -91,7 +91,7 @@ export const Home = () => {
               </Title>
               <Row gutter={12}>
                   <Col xs={24} sm={12}>
-                      <MyWavyLink to="/listings/Los%20Angeles">
+                      <Link to="/listings/Los%20Angeles">
                           <div className="home__listings-img-cover">
                               <img
                                   src={sanFransiscoImage}
@@ -99,10 +99,10 @@ export const Home = () => {
                                   className="home__listings-img"
                               />
                           </div>
-                      </MyWavyLink>
+                      </Link>
                   </Col>
                   <Col xs={24} sm={12}>
-                      <MyWavyLink to="/listings/cancún">
+                      <Link to="/listings/cancún">
                           <div className="home__listings-img-cover">
                               <img
                                   src={cancunImage}
@@ -110,16 +110,17 @@ export const Home = () => {
                                   className="home__listings-img"
                               />
                           </div>
-                      </MyWavyLink>
+                      </Link>
                   </Col>
               </Row>
 
               <div style={{ display: "flex", justifyContent: "center" }}>
-                  <MyWavyLink to="/listings">
-                      <span className="ant-btn ant-btn-primary ant-btn-lg home__cta-section-button">
-                          Explore all listings
-                      </span>
-                  </MyWavyLink>
+                  <Link
+                      to="/listings"
+                      className="ant-btn ant-btn-primary ant-btn-lg home__cta-section-button"
+                  >
+                      Explore all listings
+                  </Link>
               </div>
           </div>
       </Content>

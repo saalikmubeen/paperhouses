@@ -8,7 +8,6 @@ import { Listing as ListingData } from "../../../../lib/graphql/queries/Listing/
 import { iconColor } from "../../../../lib/utils";
 import  { ShowLocation } from "../../../../lib/components/Map";
 import { Viewer } from "../../../../lib/types";
-import { MyWavyLink } from "../../../../lib/components";
 
 interface Props {
   listing: ListingData["listing"];
@@ -50,12 +49,12 @@ export const ListingDetails = ({ listing, viewer }: Props) => {
           <Divider />
 
           <div className="listing-details__section">
-              <MyWavyLink to={`/user/${host.id}`} direction="up">
+              <Link to={`/user/${host.id}`}>
                   <Avatar src={host.avatar} size={64} />
                   <Title level={2} className="listing-details__host-name">
                       {host.name}
                   </Title>
-              </MyWavyLink>
+              </Link>
           </div>
 
           <div>

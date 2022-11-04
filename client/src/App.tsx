@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { WavyContainer } from "react-wavy-transitions";
 import { Affix, Layout, Spin } from "antd";
 import { useMutation } from "@apollo/client";
 import { Viewer } from "./lib/types";
@@ -67,7 +66,6 @@ export const App = () => {
 
     return (
         <BrowserRouter>
-            <WavyContainer />
             <Layout id="app">
                 {logInErrorBannerElement}
                 <Affix offsetTop={0} className="app__affix-header">

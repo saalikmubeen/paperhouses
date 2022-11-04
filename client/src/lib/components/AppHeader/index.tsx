@@ -6,7 +6,6 @@ import { MenuItems } from "./components";
 import logo from "./assets/paperhouses-logo.png";
 import { Viewer } from "../../types";
 import { displayErrorMessage } from "../../utils";
-import { MyWavyLink } from "../MyWavyLink";
 
 interface Props {
   viewer: Viewer;
@@ -53,9 +52,9 @@ export const AppHeader = ({ viewer, setViewer }: Props) => {
       <Header className="app-header">
           <div className="app-header__logo-search-section">
               <div className="app-header__logo">
-                  <MyWavyLink to="/" direction="up">
+                  <Link to="/">
                       <img src={logo} alt="App logo" />
-                  </MyWavyLink>
+                  </Link>
               </div>
 
               <div className="app-header__search-input">

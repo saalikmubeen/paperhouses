@@ -15,7 +15,6 @@ import {
     displayErrorMessage,
     displaySuccessNotification,
 } from "../../../../utils";
-import { MyWavyLink } from "../../../MyWavyLink";
 
 interface Props {
     viewer: Viewer;
@@ -48,7 +47,7 @@ export const MenuItems = ({ viewer, setViewer }: Props) => {
     let items: MenuProps["items"] = [
         {
             label: (
-                <MyWavyLink to="/host">
+                <Link to="/host">
                     <Icon
                         component={
                             HomeOutlined as React.ForwardRefExoticComponent<any>
@@ -56,7 +55,7 @@ export const MenuItems = ({ viewer, setViewer }: Props) => {
                         style={{ marginRight: "6px" }}
                     />
                     Become a Host
-                </MyWavyLink>
+                </Link>
             ),
             key: "/host",
         },
@@ -71,7 +70,7 @@ export const MenuItems = ({ viewer, setViewer }: Props) => {
                 children: [
                     {
                         label: (
-                            <MyWavyLink to={`/user/${viewer.id}`} direction="up">
+                            <Link to={`/user/${viewer.id}`}>
                                 <Icon
                                     component={
                                         UserOutlined as React.ForwardRefExoticComponent<any>
@@ -79,7 +78,7 @@ export const MenuItems = ({ viewer, setViewer }: Props) => {
                                     style={{ marginRight: "10px" }}
                                 />
                                 Profile
-                            </MyWavyLink>
+                            </Link>
                         ),
                         key: "/user",
                     },

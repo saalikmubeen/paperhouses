@@ -72,6 +72,7 @@ cd into root project
 - CLOUDINARY_API_SECRET
 - MAPBOX_API_KEY
 
+`npm run seed` if you want to seed the database with some data
 
 `npm run dev` to start development server
 
