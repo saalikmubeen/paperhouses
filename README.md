@@ -1,10 +1,12 @@
-# paperHouses
+# PaperHouses
 Airbnb like web app. | Rent out your property, house and apartment and earn money.
 Book Top Rated Rentals for Your Next Trip. Helping you make the best decisions in renting and choosing your last minute locations.
 
 # [Demo](https://paperhouses.netlify.app/)
 
 # Libraries used
+
+*I have used as [Ben Awad](https://github.com/benawad) likes to calls it: **The Hypebeast Stack** (React, Typescript, Node.js, GraphQL)*
 
 - **`React`** the love of my life
 - **`GraphQL`** because REST APIS are boring
