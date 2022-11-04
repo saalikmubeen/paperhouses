@@ -6,6 +6,7 @@ import { MenuItems } from "./components";
 import logo from "./assets/paperhouses-logo.png";
 import { Viewer } from "../../types";
 import { displayErrorMessage } from "../../utils";
+import { MyWavyLink } from "../MyWavyLink";
 
 interface Props {
   viewer: Viewer;
@@ -52,26 +53,24 @@ export const AppHeader = ({ viewer, setViewer }: Props) => {
       <Header className="app-header">
           <div className="app-header__logo-search-section">
               <div className="app-header__logo">
-                  <Link to="/">
+                  <MyWavyLink to="/" direction="up">
                       <img src={logo} alt="App logo" />
-                  </Link>
+                  </MyWavyLink>
               </div>
 
               <div className="app-header__search-input">
                   <Search
-                      placeholder="Search 'San Fransisco'"
+                      placeholder="Search 'Los Angeles'"
                       enterButton
                       value={search}
                       onChange={(evt) => setSearch(evt.target.value)}
                       onSearch={onSearch}
                   />
               </div>
-
           </div>
           <div className="app-header__menu-section">
               <MenuItems viewer={viewer} setViewer={setViewer} />
           </div>
-
       </Header>
   );
 };

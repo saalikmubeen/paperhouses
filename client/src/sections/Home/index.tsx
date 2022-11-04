@@ -15,6 +15,7 @@ import mapBackground from "./assets/map-background.jpg";
 import sanFransiscoImage from "./assets/san-fransisco.jpg";
 import cancunImage from "./assets/cancun.jpg";
 import { useScrollToTop } from "../../lib/hooks/useScrollToTop";
+import { MyWavyLink } from "../../lib/components";
 
 const { Content } = Layout;
 const { Paragraph, Title } = Typography;
@@ -71,16 +72,15 @@ export const Home = () => {
               </Title>
               <Paragraph>
                   Rent out your property, house and apartment and earn money.
-                  Book Top Rated Rentals for Your Next Trip. Helping you make the
-                  best decisions in renting and choosing your last minute
+                  Book Top Rated Rentals for Your Next Trip. Helping you make
+                  the best decisions in renting and choosing your last minute
                   locations.
               </Paragraph>
-              <Link
-                  to="/listings/united%20states"
-                  className="ant-btn ant-btn-primary ant-btn-lg home__cta-section-button"
-              >
-                  Popular listings in the United States
-              </Link>
+              <MyWavyLink to="/listings/united%20states">
+                  <span className="ant-btn ant-btn-primary ant-btn-lg home__cta-section-button">
+                      Popular listings in the United States
+                  </span>
+              </MyWavyLink>
           </div>
 
           {renderListingsSection()}
@@ -91,18 +91,18 @@ export const Home = () => {
               </Title>
               <Row gutter={12}>
                   <Col xs={24} sm={12}>
-                      <Link to="/listings/san%20fransisco">
+                      <MyWavyLink to="/listings/Los%20Angeles">
                           <div className="home__listings-img-cover">
                               <img
                                   src={sanFransiscoImage}
-                                  alt="San Fransisco"
+                                  alt="Los Angeles"
                                   className="home__listings-img"
                               />
                           </div>
-                      </Link>
+                      </MyWavyLink>
                   </Col>
                   <Col xs={24} sm={12}>
-                      <Link to="/listings/cancún">
+                      <MyWavyLink to="/listings/cancún">
                           <div className="home__listings-img-cover">
                               <img
                                   src={cancunImage}
@@ -110,17 +110,16 @@ export const Home = () => {
                                   className="home__listings-img"
                               />
                           </div>
-                      </Link>
+                      </MyWavyLink>
                   </Col>
               </Row>
 
               <div style={{ display: "flex", justifyContent: "center" }}>
-                  <Link
-                      to="/listings"
-                      className="ant-btn ant-btn-primary ant-btn-lg home__cta-section-button"
-                  >
-                      Explore all listings
-                  </Link>
+                  <MyWavyLink to="/listings">
+                      <span className="ant-btn ant-btn-primary ant-btn-lg home__cta-section-button">
+                          Explore all listings
+                      </span>
+                  </MyWavyLink>
               </div>
           </div>
       </Content>

@@ -15,6 +15,7 @@ import {
     displayErrorMessage,
     displaySuccessNotification,
 } from "../../../../utils";
+import { MyWavyLink } from "../../../MyWavyLink";
 
 interface Props {
     viewer: Viewer;
@@ -46,18 +47,19 @@ export const MenuItems = ({ viewer, setViewer }: Props) => {
 
     let items: MenuProps["items"] = [
         {
-            label: <Link to="/host">Become a Host</Link>,
-            key: "/host",
-            icon: (
-                <Icon
-                    component={
-                        HomeOutlined as React.ForwardRefExoticComponent<any>
-                    }
-                    style={{ marginRight: "6px" }}
-                />
+            label: (
+                <MyWavyLink to="/host">
+                    <Icon
+                        component={
+                            HomeOutlined as React.ForwardRefExoticComponent<any>
+                        }
+                        style={{ marginRight: "6px" }}
+                    />
+                    Become a Host
+                </MyWavyLink>
             ),
+            key: "/host",
         },
-        
     ];
 
     if (viewer.id && viewer.avatar) {
@@ -69,7 +71,7 @@ export const MenuItems = ({ viewer, setViewer }: Props) => {
                 children: [
                     {
                         label: (
-                            <Link to={`/user/${viewer.id}`}>
+                            <MyWavyLink to={`/user/${viewer.id}`} direction="up">
                                 <Icon
                                     component={
                                         UserOutlined as React.ForwardRefExoticComponent<any>
@@ -77,7 +79,7 @@ export const MenuItems = ({ viewer, setViewer }: Props) => {
                                     style={{ marginRight: "10px" }}
                                 />
                                 Profile
-                            </Link>
+                            </MyWavyLink>
                         ),
                         key: "/user",
                     },

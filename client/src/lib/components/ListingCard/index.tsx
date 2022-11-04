@@ -5,6 +5,7 @@ import Icon, {
     UserOutlined,
 } from "@ant-design/icons";
 import { iconColor, formatListingPrice } from "../../utils";
+import { MyWavyLink } from "../MyWavyLink";
 
 interface Props {
   listing: {

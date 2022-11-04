@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { WavyContainer } from "react-wavy-transitions";
 import { Affix, Layout, Spin } from "antd";
 import { useMutation } from "@apollo/client";
 import { Viewer } from "./lib/types";
@@ -66,6 +67,7 @@ export const App = () => {
 
     return (
         <BrowserRouter>
+            <WavyContainer />
             <Layout id="app">
                 {logInErrorBannerElement}
                 <Affix offsetTop={0} className="app__affix-header">
@@ -77,7 +79,9 @@ export const App = () => {
                     <Route path="/host" element={<Host viewer={viewer} />} />
                     <Route
                         path="/login"
-                        element={<Login setViewer={setViewer} viewer={viewer} />}
+                        element={
+                            <Login setViewer={setViewer} viewer={viewer} />
+                        }
                     />
                     <Route
                         path="/stripe"
