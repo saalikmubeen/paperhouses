@@ -25,6 +25,14 @@ export const chatResolvers: IResolvers = {
                     throw new Error("viewer cannot be found | unauthorized");
                 }
 
+                const recipientUser = await db.users.findOne({
+                    _id: recipient
+                });
+
+                if (!recipientUser) {
+                    throw new Error("recipient cannot be found");
+                }
+
                 let chat = await db.chat.findOne({
                     participants: {
                         $all: [viewer._id, recipient],

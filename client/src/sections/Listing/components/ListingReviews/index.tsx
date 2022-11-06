@@ -14,7 +14,7 @@ import { Viewer } from "../../../../lib/types";
 import { displayErrorMessage, displaySuccessNotification, iconColor } from "../../../../lib/utils";
 const { TextArea } = Input;
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 interface ReviewItem {
   author: string;
@@ -135,13 +135,15 @@ export const CreateReview: React.FC<Props> = ({reviews, viewer, refetchListing, 
         setRatingValue(value)
     };
 
+    const alreadyReviewed = reviews.some((review) => review.author.id === viewer.id);
+
     return (
         <>
             {modifiedReviews.length > 0 && (
                 <CommentList reviews={modifiedReviews} />
             )}
 
-            {viewer.id && (
+            {viewer.id && !alreadyReviewed ? (
                 <Comment
                     avatar={<Avatar src={viewer.avatar} alt={viewer.id} />}
                     content={
@@ -155,6 +157,10 @@ export const CreateReview: React.FC<Props> = ({reviews, viewer, refetchListing, 
                         />
                     }
                 />
+            ) : (
+                <Text type="secondary" mark>
+                    You have already rated this listing!
+                </Text>
             )}
         </>
     );

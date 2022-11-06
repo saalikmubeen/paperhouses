@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Layout, Spin } from "antd";
 import { useQuery, useSubscription } from "@apollo/client";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { SEND_MESSAGE } from "../../lib/graphql/subscriptions/SendMessage";
 import { Viewer } from "../../lib/types";
 import { CHAT } from "../../lib/graphql/queries";
@@ -28,6 +28,7 @@ type Params = Record<"recipientId", string>;
 
 export const Chat = (props: Props) => {
     let params = useParams<Params>() as Params;
+    const navigate = useNavigate();
 
     const { loading, error, data, subscribeToMore } = useQuery<
         ChatData,
@@ -42,7 +43,12 @@ export const Chat = (props: Props) => {
 
     useEffect(() => {
 
-        if(!loading && data?.chat) {
+        if (!props.viewer.id) {
+            navigate("/");
+            return;
+        }
+
+        if (!loading && data?.chat) {
             subscribeToMore({
                 document: SEND_MESSAGE,
                 variables: { to: params.recipientId },
@@ -63,8 +69,17 @@ export const Chat = (props: Props) => {
                 },
             });
         }
+    }, [
+        params.recipientId,
+        subscribeToMore,
+        loading,
+        props.viewer.id,
+        navigate,
+    ]);
 
-    }, [params.recipientId, subscribeToMore, loading])
+    if(!props.viewer.id) {
+        return <></>;
+    }
 
     if (loading) {
         return (
@@ -89,6 +104,8 @@ export const Chat = (props: Props) => {
     if(!chat) {
         return null;
     }
+
+    console.log(chat)
 
     const recipient = chat.participants.find((participant) => {
         return participant.id !== props.viewer.id;
