@@ -1,6 +1,7 @@
 import { WechatOutlined } from "@ant-design/icons";
 import { useMutation } from "@apollo/client";
-import { Avatar, Button, Comment, Form, Input, List, Rate, Typography } from "antd";
+import { Avatar, Button, Comment, Form, Input, List, Rate, Tooltip, Typography } from "antd";
+import { DeleteFilled } from "@ant-design/icons";
 import moment from "moment";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
@@ -12,15 +13,17 @@ import {
 import { Listing } from "../../../../lib/graphql/queries/Listing/__generated__/Listing";
 import { Viewer } from "../../../../lib/types";
 import { displayErrorMessage, displaySuccessNotification, iconColor } from "../../../../lib/utils";
+import { DeleteReview as DeleteReviewData, DeleteReviewVariables } from "../../../../lib/graphql/mutations/DeleteReview/__generated__/DeleteReview";
+import { DELETE_REVIEW } from "../../../../lib/graphql/mutations/DeleteReview";
 const { TextArea } = Input;
 
 const { Title, Text } = Typography;
 
 interface ReviewItem {
-  author: string;
-  avatar: string;
-  content: React.ReactNode;
-  datetime: string;
+    author: string;
+    avatar: React.ReactNode;
+    content: React.ReactNode;
+    datetime: React.ReactNode;
 }
 
 interface Props {
@@ -101,17 +104,79 @@ export const CreateReview: React.FC<Props> = ({reviews, viewer, refetchListing, 
         },
     });
 
+    const [deleteReview, { loading: loadingDeleteReview }] = useMutation<
+        DeleteReviewData,
+        DeleteReviewVariables
+    >(DELETE_REVIEW, {
+        onCompleted: () => {
+            displaySuccessNotification("Your review has been deleted!");
+            refetchListing();
+        },
+        onError: (err) => {
+            console.log(err.message);
+            displayErrorMessage(err.message);
+        },
+    });
+
+    const handleDeleteReview = (reviewId: string) => {
+        deleteReview({
+            variables: {
+                input: {
+                    reviewId,
+                    listingId
+                }
+            }
+        })
+    }
+
     const modifiedReviews: ReviewItem[] = reviews.map((review) => {
         return {
-            avatar: review.author.avatar,
+            avatar: !viewer.id ? (
+                <Link to="/login">
+                    <Avatar
+                        src={review.author.avatar}
+                        alt={review.author.name}
+                    />
+                </Link>
+            ) : viewer.id === review.author.id ? (
+                <Avatar src={review.author.avatar} alt={review.author.name} />
+            ) : (
+                <Link to={`/chat/${review.author.id}`}>
+                    <Avatar
+                        src={review.author.avatar}
+                        alt={review.author.name}
+                    />
+                </Link>
+            ),
             author: review.author.name,
             content: (
-                <>
-                    <Rate disabled defaultValue={review.rating} />
-                    <p>{review.comment}</p>
-                </>
+                <div
+                    style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "25px",
+                    }}
+                >
+                    <div>
+                        <Rate disabled defaultValue={review.rating} />
+                        <p>{review.comment}</p>
+                    </div>
+
+                    {viewer.id && viewer.id === review.author.id && (
+                        <DeleteFilled
+                            style={{ color: "#ce1313", fontSize: "18px", cursor: "pointer" }}
+                            onClick={() => handleDeleteReview(review.id)}
+                        />
+                    )}
+                </div>
             ),
-            datetime: moment(review.createdAt).fromNow()
+            datetime: (
+                <Tooltip
+                    title={moment(review.createdAt).format("YYYY-MM-DD HH:mm")}
+                >
+                    <span>{moment(review.createdAt).fromNow()}</span>
+                </Tooltip>
+            ),
         };
     })
 
@@ -143,7 +208,11 @@ export const CreateReview: React.FC<Props> = ({reviews, viewer, refetchListing, 
                 <CommentList reviews={modifiedReviews} />
             )}
 
-            {viewer.id && !alreadyReviewed ? (
+            {!viewer.id ? (
+                <Text type="secondary" mark>
+                    Sign in to rate this listing!
+                </Text>
+            ) : viewer.id && !alreadyReviewed ? (
                 <Comment
                     avatar={<Avatar src={viewer.avatar} alt={viewer.id} />}
                     content={

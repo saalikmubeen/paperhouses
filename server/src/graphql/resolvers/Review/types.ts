@@ -7,3 +7,10 @@ export interface CreateReviewInput {
 export interface CreateReviewArgs {
     input: CreateReviewInput;
 }
+export interface DeleteReviewInput {
+    listingId: string;
+    reviewId: string;
+}
+export interface DeleteReviewArgs {
+    input: DeleteReviewInput;
+}

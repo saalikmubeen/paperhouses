@@ -140,6 +140,11 @@ export const typeDefs = gql`
         comment: String
     }
 
+    input DeleteReviewInput {
+        listingId: String!
+        reviewId: String!
+    }
+
     type Query {
         authUrl: String!
         user(id: ID!): User!
@@ -163,6 +168,7 @@ export const typeDefs = gql`
         createBooking(input: CreateBookingInput!): Booking!
         createMessage(input: CreateMessageInput!): Message!
         createReview(input: CreateReviewInput!): Review!
+        deleteReview(input: DeleteReviewInput!): Review!
     }
 
     type Subscription {

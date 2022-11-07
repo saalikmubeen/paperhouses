@@ -40,6 +40,11 @@ export interface CreateReviewInput {
   comment?: string | null;
 }
 
+export interface DeleteReviewInput {
+  listingId: string;
+  reviewId: string;
+}
+
 export interface HostListingInput {
   title: string;
   description: string;
