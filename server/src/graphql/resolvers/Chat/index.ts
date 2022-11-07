@@ -33,6 +33,10 @@ export const chatResolvers: IResolvers = {
                     throw new Error("recipient cannot be found");
                 }
 
+                if(viewer._id === recipientUser._id) {
+                    throw new Error("Cannot create chat with your own self.");
+                }
+
                 let chat = await db.chat.findOne({
                     participants: {
                         $all: [viewer._id, recipient],

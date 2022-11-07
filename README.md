@@ -30,10 +30,11 @@ Book Top Rated Rentals for Your Next Trip. Helping you make the best decisions i
 * Update the Listing information
 * Handle payments with stripe.
 * Review and rating system.
-* Filter and search for listings and rentals based on location.
+* Search for listings and rentals based on location.
+* Sort listings based on price and ratings.
 * View the location of any listing or rental on a detailed map.
 
-**and more....**
+**and much more....**
 
 
 # Installation
@@ -46,7 +47,7 @@ git clone git@github.com:saalikmubeen/paperhouses.git
 
 ## Manual
 
-If you aren't a docker person, [You lost my respect for that. 😑]
+If you aren't a docker person, [We can't be friends. 😑]
 
 cd into root project
 

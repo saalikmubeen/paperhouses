@@ -131,17 +131,8 @@ export const CreateReview: React.FC<Props> = ({reviews, viewer, refetchListing, 
 
     const modifiedReviews: ReviewItem[] = reviews.map((review) => {
         return {
-            avatar: !viewer.id ? (
-                <Link to="/login">
-                    <Avatar
-                        src={review.author.avatar}
-                        alt={review.author.name}
-                    />
-                </Link>
-            ) : viewer.id === review.author.id ? (
-                <Avatar src={review.author.avatar} alt={review.author.name} />
-            ) : (
-                <Link to={`/chat/${review.author.id}`}>
+            avatar: (
+                <Link to={`/user/${review.author.id}`}>
                     <Avatar
                         src={review.author.avatar}
                         alt={review.author.name}
@@ -164,7 +155,11 @@ export const CreateReview: React.FC<Props> = ({reviews, viewer, refetchListing, 
 
                     {viewer.id && viewer.id === review.author.id && (
                         <DeleteFilled
-                            style={{ color: "#ce1313", fontSize: "18px", cursor: "pointer" }}
+                            style={{
+                                color: "#ce1313",
+                                fontSize: "16px",
+                                cursor: "pointer",
+                            }}
                             onClick={() => handleDeleteReview(review.id)}
                         />
                     )}

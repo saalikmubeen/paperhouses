@@ -8,10 +8,12 @@ import {
     displayErrorMessage,
     displaySuccessNotification,
     formatListingPrice,
+    iconColor,
     stripeAuthUrl,
 } from "../../../../lib/utils";
 import { Viewer } from "../../../../lib/types";
 import { UserChats } from "../UserChats";
+import { Link } from "react-router-dom";
 
 interface Props {
     user: UserData["user"];
@@ -139,6 +141,27 @@ export const UserProfile = ({
                         Contact: <Text strong>{user.contact}</Text>
                     </Paragraph>
                 </div>
+
+                <div
+                    style={{
+                        display:
+                            viewer.id && viewer.id === user.id
+                                ? "none"
+                                : "block",
+                    }}
+                >
+                    <Divider />
+                    <Link
+                        to={
+                            viewer.id && viewer.token
+                                ? `/chat/${user.id}`
+                                : "/login"
+                        }
+                    >
+                        <Button type="primary">Message</Button>
+                    </Link>
+                </div>
+
                 {additionalDetailsSection}
             </Card>
         </div>
