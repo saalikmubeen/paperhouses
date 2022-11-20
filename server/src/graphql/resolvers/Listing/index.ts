@@ -128,6 +128,7 @@ export const listingResolvers: IResolvers = {
 
                 return data;
             } catch (error) {
+                console.log(error)
                 throw new Error(`Failed to query listings: ${error}`);
             }
         },

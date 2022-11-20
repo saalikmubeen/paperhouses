@@ -68,7 +68,7 @@ export const ListingDetails = ({ listing, viewer }: Props) => {
                 </Link>
             </div>
 
-            <div>
+            <div style={{ display: viewer.token && viewer.id === host.id ? "none" : "block" }}>
                 <Link
                     to={
                         viewer.id && viewer.token
